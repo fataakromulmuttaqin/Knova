@@ -132,12 +132,18 @@ Vercel page.
 
 ## Known limits
 
-- **Upload size.** Vercel Functions cap request and response bodies at 4.5 MB.
-  A rewrite to an external origin is not a Function, and a 20 MB POST through
-  the Funnel returned `422` (validation) rather than `413`, so large bodies do
-  pass through in testing. Verify each large upload once; if it fails with
-  `413 FUNCTION_PAYLOAD_TOO_LARGE`, send uploads straight to the Funnel host or
-  serve the frontend from the Funnel host instead of Vercel.
+- **Upload size.** Vercel Functions cap request and response bodies at 4.5 MB,
+  but a rewrite to an external origin is served by the edge proxy, not by a
+  Function. Measured on the live deployment: POST bodies of 4 MB, 6 MB, and
+  20 MB all reached the backend (`422` JSON validation), and none returned
+  `413 FUNCTION_PAYLOAD_TOO_LARGE`. The 100 MB per-file upload path is therefore
+  not capped by the proxy.
+- **Deployment protection.** Vercel turns on Vercel Authentication for new
+  projects, so every visitor is asked to sign in to Vercel. Turn it off in
+  **Project → Settings → Deployment Protection**, or clear `ssoProtection`
+  through the REST API:
+  `PATCH https://api.vercel.com/v9/projects/<project>?slug=<team-slug>` with
+  body `{"ssoProtection":null}`.
 
 - **Streaming.** `/query` replies with `text/event-stream`, and the frontend
   reads the body with a stream reader (`frontend/src/api.js:289`). If the proxy
@@ -150,9 +156,38 @@ Vercel page.
 
 ## Keeping it running on Windows
 
-- Start the backend and cloudflared as a scheduled task (trigger: at logon, and
-  restart on failure) or with a service wrapper.
+- The Tailscale service starts automatically, so the Funnel returns after a
+  reboot. Confirm with `tailscale funnel status`.
+- Start the backend as a scheduled task (trigger: at logon, restart on failure)
+  or with a service wrapper such as NSSM.
 - Keep the machine awake: disable sleep in the power plan, or the tunnel and the
   backend stop responding.
 - Back up `KNOVA_DATA_DIR` (default `Ragkno/data`) and the Obsidian vault
   directory. All state lives on this machine.
+
+## Verified deployment
+
+Live on 2026-10-11:
+
+| Check | Result |
+| --- | --- |
+| `https://knova-lac.vercel.app` | 200, landing page renders |
+| `https://knova-lac.vercel.app/api/health/ready` | 200 `{"status":"ready",...}` via the rewrite, the Funnel, and the local backend |
+| `POST /api/auth/login` through the Vercel domain | 200 plus `Set-Cookie: knova_session` |
+| `GET /api/auth/me` with that cookie | `{"authenticated":true,...}` |
+| `POST /api/query` through the Vercel domain | 200, one source, Indonesian answer, so multilingual retrieval runs end to end |
+| Deployed bundle | `/assets/index-DZJt8vbZ.js` calls `/api` |
+| POST bodies of 4 MB, 6 MB, 20 MB | reached the backend, no `413` |
+
+Backend environment used for this deployment:
+
+```
+FRONTEND_URL=https://knova-lac.vercel.app
+CORS_ORIGINS=https://knova-lac.vercel.app,https://knova-fataakromulmuttaqins-projects.vercel.app
+GOOGLE_APP_REDIRECT_URI=https://knova-lac.vercel.app/api/login/google/callback
+GOOGLE_REDIRECT_URI=https://knova-lac.vercel.app/api/auth/callback
+```
+
+Both Google redirect URIs still have to be registered in the Google Cloud
+console. Until then, password login works through Vercel and Google login
+returns `redirect_uri_mismatch`.

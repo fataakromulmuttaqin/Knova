@@ -45,6 +45,10 @@ frontend/.vite/
 frontend/.dev.vars*
 !frontend/.dev.vars.example
 frontend/.wrangler/
+
+# Vercel CLI
+.vercel/
+frontend/.vercel/
 coverage/
 
 # Runtime data artifacts
