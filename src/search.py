@@ -874,6 +874,18 @@ class RAGSearch:
             if distance is not None and (not math.isfinite(float(distance)) or float(distance) > vector_distance_cutoff) and bm25_score <= 0:
                 continue
             relevant.append(row)
+        if not relevant:
+            # The reranker scores generic questions ("what is this PDF about?")
+            # below the cutoff even when the document is clearly close in vector
+            # space. Reporting "no relevant documents found" then is a false
+            # negative, so keep the closest rows as best-effort context.
+            relevant = [
+                row
+                for row in ranked
+                if row.get("distance") is not None
+                and math.isfinite(float(row["distance"]))
+                and float(row["distance"]) <= vector_distance_cutoff
+            ][: max(1, min(top_k, 3))]
         ranked = relevant
         ranked = [row for row in ranked if (row.get("metadata") or {}).get("user_id") == user_id]
         parent_expanded = self._expand_to_parent_context(ranked, top_k=top_k)
