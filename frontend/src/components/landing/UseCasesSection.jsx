@@ -7,42 +7,42 @@ const workflows = [
   {
     id: 'policies',
     number: '01',
-    title: 'Policies and handbooks',
+    title: 'Kebijakan dan handbook',
     icon: FileSearch,
-    prompt: '“What changed in our leave policy, and where is it written?”',
-    description: 'Retrieve policy passages from indexed PDF, DOCX, TXT, and website content, then inspect the excerpts behind the answer.',
-    outcome: ['Hybrid semantic and keyword retrieval', 'Inline citations to retrieved passages', 'Source text available for verification'],
-    formats: ['PDF', 'DOCX', 'TXT', 'Web pages'],
+    prompt: '“Apa yang berubah di kebijakan cuti kami, dan di mana tertulisnya?”',
+    description: 'Ambil passage kebijakan dari konten PDF, DOCX, TXT, dan website yang sudah di-index, lalu periksa kutipan di balik jawabannya.',
+    outcome: ['Hybrid semantic dan keyword retrieval', 'Sitasi inline ke passage hasil retrieval', 'Teks sumber tersedia untuk verifikasi'],
+    formats: ['PDF', 'DOCX', 'TXT', 'Halaman web'],
   },
   {
     id: 'engineering',
     number: '02',
-    title: 'Engineering documentation',
+    title: 'Dokumentasi engineering',
     icon: Terminal,
-    prompt: '“Which checks does the deployment runbook require?”',
-    description: 'Search architecture notes, runbooks, release guides, and other text-based technical documents in one indexed workspace.',
-    outcome: ['CrossEncoder reranking', 'Conversation-aware follow-ups', 'Selectable document sources'],
-    formats: ['Runbooks', 'ADRs', 'Guides', 'Static docs'],
+    prompt: '“Check apa saja yang diwajibkan runbook deployment?”',
+    description: 'Cari catatan arsitektur, runbook, panduan rilis, dan dokumen teknis berbasis teks lain dalam satu workspace yang ter-index.',
+    outcome: ['CrossEncoder reranking', 'Follow-up yang sadar konteks percakapan', 'Sumber dokumen yang bisa dipilih'],
+    formats: ['Runbook', 'ADR', 'Panduan', 'Dokumen statis'],
   },
   {
     id: 'drive',
     number: '03',
-    title: 'Google Drive knowledge',
+    title: 'Pengetahuan di Google Drive',
     icon: Cloud,
-    prompt: '“Summarize the onboarding material in the selected Drive files.”',
-    description: 'Connect Google Drive with read-only access and manually sync supported files into a private user-scoped index.',
-    outcome: ['Read-only Google Drive connection', 'Choose which files to sync', 'Drive links in source citations'],
+    prompt: '“Ringkas materi onboarding di file Drive yang dipilih.”',
+    description: 'Hubungkan Google Drive dengan akses read-only dan sinkronkan file yang didukung secara manual ke index privat khusus milik user.',
+    outcome: ['Koneksi Google Drive read-only', 'Pilih file mana yang disinkronkan', 'Link Drive di sitasi sumber'],
     formats: ['Google Docs', 'Drive PDFs', 'Drive TXT'],
   },
   {
     id: 'research',
     number: '04',
-    title: 'Multi-document research',
+    title: 'Riset multi-dokumen',
     icon: Files,
-    prompt: '“Compare how these documents define the same requirement.”',
-    description: 'Ask questions across an indexed collection and review the strongest retrieved passages before relying on the synthesis.',
-    outcome: ['Multiple indexed documents', 'Source-diverse retrieval', 'Persistent conversation history'],
-    formats: ['Reports', 'Notes', 'References', 'Web sources'],
+    prompt: '“Bandingkan bagaimana dokumen-dokumen ini mendefinisikan kebutuhan yang sama.”',
+    description: 'Ajukan pertanyaan di seluruh koleksi yang ter-index dan tinjau passage terkuat hasil retrieval sebelum mempercayai sintesisnya.',
+    outcome: ['Beberapa dokumen ter-index', 'Retrieval dengan sumber beragam', 'Riwayat percakapan yang tersimpan'],
+    formats: ['Laporan', 'Catatan', 'Referensi', 'Sumber web'],
   },
 ]
 
@@ -71,13 +71,13 @@ export default function UseCasesSection() {
     <section className="use-cases-section" data-nav-theme="dark" aria-labelledby="workflows-title">
       <div className="use-cases-inner">
         <div className="section-head-dark editorial-workflow-head">
-          <span className="section-badge-dark"><BookOpen size={12} /> WORKING WITH YOUR KNOWLEDGE</span>
-          <h2 id="workflows-title">One retrieval workflow.<br />Many kinds of questions.</h2>
-          <p>Use Knova where the supporting document matters as much as the generated answer.</p>
+          <span className="section-badge-dark"><BookOpen size={12} /> BEKERJA DENGAN PENGETAHUANMU</span>
+          <h2 id="workflows-title">Satu alur retrieval.<br />Beragam jenis pertanyaan.</h2>
+          <p>Pakai Knova saat dokumen pendukung sama pentingnya dengan jawaban yang dihasilkan.</p>
         </div>
 
         <div className="workflow-desktop">
-          <div className="workflow-tabs" role="tablist" aria-label="Document workflows">
+          <div className="workflow-tabs" role="tablist" aria-label="Alur kerja dokumen">
             {workflows.map((workflow) => {
               const Icon = workflow.icon
               const selected = workflow.id === active.id

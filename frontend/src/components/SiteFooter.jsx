@@ -11,33 +11,33 @@ export default function SiteFooter() {
             <img src={brandLogoDark} alt="" className="footer-logo-img" />
             <span>KNOVA</span>
           </Link>
-          <p className="footer-copyright">© Knova 2026. All rights reserved.</p>
+          <p className="footer-copyright">© Knova 2026. Seluruh hak dilindungi.</p>
           <AskAI />
         </div>
 
         <div className="footer-links">
           <div className="footer-col">
-            <h4>Product</h4>
-            <Link to="/#capabilities">Features</Link>
-            <Link to="/login?mode=signin">Chat Assistant</Link>
-            <Link to="/login?mode=signup">Get started</Link>
+            <h4>Produk</h4>
+            <Link to="/#capabilities">Fitur</Link>
+            <Link to="/login?mode=signin">Asisten Chat</Link>
+            <Link to="/login?mode=signup">Mulai</Link>
           </div>
           <div className="footer-col">
-            <h4>Resources</h4>
-            <Link to="/docs">Documentation</Link>
-            <Link to="/#how-it-works">How it works</Link>
+            <h4>Sumber Daya</h4>
+            <Link to="/docs">Dokumentasi</Link>
+            <Link to="/#how-it-works">Cara kerja</Link>
             <Link to="/#faq">FAQ</Link>
           </div>
           <div className="footer-col">
             <h4>Legal</h4>
-            <Link to="/privacy">Privacy Policy</Link>
-            <Link to="/terms">Terms of Service</Link>
-            <Link to="/cookies">Cookie Policy</Link>
+            <Link to="/privacy">Kebijakan Privasi</Link>
+            <Link to="/terms">Ketentuan Layanan</Link>
+            <Link to="/cookies">Kebijakan Cookie</Link>
           </div>
           <div className="footer-col">
-            <h4>Account</h4>
-            <Link to="/login?mode=signup">Create account</Link>
-            <Link to="/login?mode=signin">Login</Link>
+            <h4>Akun</h4>
+            <Link to="/login?mode=signup">Buat akun</Link>
+            <Link to="/login?mode=signin">Masuk</Link>
           </div>
         </div>
       </div>

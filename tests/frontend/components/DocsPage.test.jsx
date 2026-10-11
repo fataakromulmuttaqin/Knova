@@ -19,7 +19,7 @@ describe('documentation page', () => {
     expect(screen.getByRole('heading', { name: 'Turn scattered knowledge into grounded answers' })).toBeTruthy()
     expect(screen.getByRole('heading', { name: 'Contributing' })).toBeTruthy()
     expect(screen.getByRole('heading', { name: 'Code of Conduct' })).toBeTruthy()
-    expect(screen.getByRole('link', { name: 'Documentation' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'Dokumentasi' })).toBeTruthy()
 
     fireEvent.change(screen.getByRole('searchbox', { name: 'Search documentation' }), { target: { value: 'Google Drive' } })
     expect(screen.getByRole('link', { name: 'Google Drive' })).toBeTruthy()

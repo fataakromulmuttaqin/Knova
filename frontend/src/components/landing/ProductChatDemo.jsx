@@ -6,31 +6,31 @@ import brandLogo from '../../assets/figma-logo-mark.svg'
 const conversations = [
   {
     id: 'leave',
-    label: 'Parental leave policy',
-    question: 'What is our parental leave policy and when should I notify my manager?',
-    answer: 'The employee handbook provides 16 weeks of paid parental leave for eligible full-time employees. It asks employees to notify their manager and People Operations at least 30 days before the expected start date when possible.',
+    label: 'Kebijakan cuti orang tua',
+    question: 'Bagaimana kebijakan cuti orang tua kami dan kapan saya harus memberi tahu manajer?',
+    answer: 'Employee handbook memberikan 16 minggu cuti orang tua berbayar untuk karyawan tetap yang memenuhi syarat. Karyawan diminta memberi tahu manajer dan People Operations minimal 30 hari sebelum perkiraan tanggal mulai, jika memungkinkan.',
     sources: [
-      { index: 1, title: 'Employee_Handbook.pdf', detail: 'Page 42 · Leave benefits', excerpt: 'Eligible full-time employees may take up to 16 weeks of paid parental leave.' },
-      { index: 2, title: 'Leave_Request_Guide.txt', detail: 'Planning and notice', excerpt: 'Give your manager and People Operations 30 days notice when the timing is foreseeable.' },
+      { index: 1, title: 'Employee_Handbook.pdf', detail: 'Halaman 42 · Tunjangan cuti', excerpt: 'Eligible full-time employees may take up to 16 weeks of paid parental leave.' },
+      { index: 2, title: 'Leave_Request_Guide.txt', detail: 'Perencanaan dan pemberitahuan', excerpt: 'Give your manager and People Operations 30 days notice when the timing is foreseeable.' },
     ],
   },
   {
     id: 'release',
-    label: 'Release process',
-    question: 'What checks are required before a production release?',
-    answer: 'The release guide requires passing automated tests, a completed peer review, and an approved rollback plan before deployment. The runbook also asks the release owner to verify monitoring after rollout.',
+    label: 'Proses rilis',
+    question: 'Check apa saja yang wajib sebelum rilis ke production?',
+    answer: 'Panduan rilis mewajibkan tes otomatis lulus, peer review selesai, dan rollback plan disetujui sebelum deployment. Runbook juga meminta release owner memverifikasi monitoring setelah rollout.',
     sources: [
-      { index: 1, title: 'Engineering_Release_Guide.docx', detail: 'Pre-release checklist', excerpt: 'Tests, peer review, and a rollback plan must be complete before production deployment.' },
-      { index: 2, title: 'Production runbook', detail: 'Indexed website', excerpt: 'The release owner verifies service health and alerting immediately after rollout.' },
+      { index: 1, title: 'Engineering_Release_Guide.docx', detail: 'Checklist pra-rilis', excerpt: 'Tests, peer review, and a rollback plan must be complete before production deployment.' },
+      { index: 2, title: 'Production runbook', detail: 'Website ter-index', excerpt: 'The release owner verifies service health and alerting immediately after rollout.' },
     ],
   },
   {
     id: 'onboarding',
-    label: 'New hire onboarding',
-    question: 'Which documents should a new engineer read in their first week?',
-    answer: 'The onboarding plan starts with the architecture overview, local development guide, and incident-response handbook. These documents are available in the connected Google Drive folder.',
+    label: 'Onboarding karyawan baru',
+    question: 'Dokumen apa yang harus dibaca engineer baru di minggu pertama?',
+    answer: 'Rencana onboarding dimulai dari architecture overview, panduan development lokal, dan handbook incident-response. Dokumen-dokumen itu tersedia di folder Google Drive yang terhubung.',
     sources: [
-      { index: 1, title: 'Engineering_Onboarding.pdf', detail: 'Google Drive · Week one', excerpt: 'Read the architecture overview, development setup, and incident-response handbook.' },
+      { index: 1, title: 'Engineering_Onboarding.pdf', detail: 'Google Drive · Minggu pertama', excerpt: 'Read the architecture overview, development setup, and incident-response handbook.' },
       { index: 2, title: 'Local_Development.txt', detail: 'Google Drive · Setup', excerpt: 'Complete the local setup and verify the sample service before taking a starter task.' },
     ],
   },
@@ -95,13 +95,13 @@ export default function ProductChatDemo() {
       </div>
       <div className="chat-demo-inner">
         <div className="section-head-light">
-          <span className="section-badge-light"><Sparkles size={12} /> DOCUMENT Q&amp;A</span>
-          <h2 id="chat-demo-title">Ask naturally.<br />Verify every answer.</h2>
-          <p>Knova retrieves relevant passages from your indexed documents and keeps the supporting text one click away.</p>
+          <span className="section-badge-light"><Sparkles size={12} /> TANYA JAWAB DOKUMEN</span>
+          <h2 id="chat-demo-title">Tanya dengan natural.<br />Verifikasi setiap jawaban.</h2>
+          <p>Knova mengambil passage relevan dari dokumen yang kamu index dan menjaga teks pendukungnya tetap satu klik dari jawaban.</p>
         </div>
 
         <motion.div className="premium-chat-demo" initial={reduceMotion ? false : { opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .25 }} transition={{ duration: .5 }}>
-          <div className="premium-chat-status"><span><i /> Knova workspace</span><span>Hybrid retrieval · citations</span></div>
+          <div className="premium-chat-status"><span><i /> Knova workspace</span><span>Hybrid retrieval · sitasi</span></div>
 
           <div className="premium-chat-body">
             <AnimatePresence mode="wait">
@@ -113,7 +113,7 @@ export default function ProductChatDemo() {
                   </div>
                   <div>
                     <button type="button" className="premium-source-toggle" onClick={() => setSourcesOpen((value) => !value)} aria-expanded={sourcesOpen}>
-                      <Database size={14} /> Used {active.sources.length} sources <ChevronDown size={14} className={sourcesOpen ? 'open' : ''} />
+                      <Database size={14} /> Pakai {active.sources.length} sumber <ChevronDown size={14} className={sourcesOpen ? 'open' : ''} />
                     </button>
                     <CitedAnswer item={active} />
                     <AnimatePresence initial={false}>
@@ -136,15 +136,15 @@ export default function ProductChatDemo() {
           </div>
 
           <div className="premium-chat-controls">
-            <div className="premium-suggestions" aria-label="Sample questions">
+            <div className="premium-suggestions" aria-label="Contoh pertanyaan">
               {conversations.map((item) => (
                 <button key={item.id} type="button" className={item.id === active.id ? 'active' : ''} onClick={() => selectConversation(item.id)}>{item.label}</button>
               ))}
             </div>
             <form className="premium-demo-composer" onSubmit={submitDemo}>
               <Globe size={17} />
-              <input value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Ask a question about your documents…" aria-label="Try a sample document question" />
-              <button type="submit" aria-label="Submit demo question"><ArrowUp size={17} /></button>
+              <input value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Tanyakan sesuatu tentang dokumenmu…" aria-label="Coba contoh pertanyaan dokumen" />
+              <button type="submit" aria-label="Kirim contoh pertanyaan"><ArrowUp size={17} /></button>
             </form>
           </div>
         </motion.div>

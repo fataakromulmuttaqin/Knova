@@ -124,10 +124,10 @@ function ConfluenceIcon() {
 
 const SOURCES = [
   { name: 'Google Drive', icon: <GoogleDriveIcon /> },
-  { name: 'PDF Documents', icon: <PdfIcon /> },
+  { name: 'Dokumen PDF', icon: <PdfIcon /> },
   { name: 'Word (DOCX)', icon: <DocxIcon /> },
-  { name: 'Plain Text', icon: <TxtIcon /> },
-  { name: 'Website URLs', icon: <WebIcon /> },
+  { name: 'Teks biasa', icon: <TxtIcon /> },
+  { name: 'URL Website', icon: <WebIcon /> },
 ]
 
 export default function KnowledgeSourcesMarquee() {
@@ -135,7 +135,7 @@ export default function KnowledgeSourcesMarquee() {
   const duplicatedSources = [...SOURCES, ...SOURCES, ...SOURCES]
 
   return (
-    <div className="marquee-strip-wrapper" aria-label="Supported knowledge sources">
+    <div className="marquee-strip-wrapper" aria-label="Sumber pengetahuan yang didukung">
       {/* Infinite scrolling track */}
       <div className="marquee-strip-track">
         {duplicatedSources.map((item, index) => (

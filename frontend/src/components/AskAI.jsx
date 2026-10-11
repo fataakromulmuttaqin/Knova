@@ -23,16 +23,16 @@ const providers = [
 
 export default function AskAI() {
   return (
-    <section className="footer-ask-ai" aria-label="Ask AI about Knova">
-      <p className="footer-ask-ai-title">Ask AI about Knova</p>
+    <section className="footer-ask-ai" aria-label="Tanya AI soal Knova">
+      <p className="footer-ask-ai-title">Tanya AI soal Knova</p>
       <div className="footer-ai-buttons">
         {providers.map(({ name, logo, url }) => (
           <a key={name} className="footer-ai-button"
             href={`${url}?q=${encodeURIComponent(KNOVA_EXPLAIN_PROMPT)}`}
             target="_blank" rel="noopener noreferrer"
-            aria-label={`Ask ${name} about Knova`}
-            title={`Ask ${name} about Knova (opens a new tab)`}>
-            <span>Ask</span>
+            aria-label={`Tanya ${name} soal Knova`}
+            title={`Tanya ${name} soal Knova (buka tab baru)`}>
+            <span>Tanya</span>
             <img src={logo} alt="" width="17" height="17" />
           </a>
         ))}

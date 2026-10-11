@@ -8,46 +8,46 @@ import {
 
 export const defaultFAQs = [
   {
-    question: "What data sources can I connect to KNOVA?",
+    question: "Sumber data apa saja yang bisa saya hubungkan ke KNOVA?",
     answer:
-      "You can upload PDF, DOCX, and TXT files, add an HTTP or HTTPS page, and import supported PDF, TXT, and Google Docs content from Google Drive. The extracted text is chunked and stored in the application's Chroma collection for retrieval.",
+      "Kamu bisa upload file PDF, DOCX, dan TXT, menambahkan halaman HTTP atau HTTPS, serta mengimpor konten PDF, TXT, dan Google Docs yang didukung dari Google Drive. Teks hasil ekstraksi di-chunk lalu disimpan di koleksi Chroma aplikasi untuk retrieval.",
   },
   {
-    question: "How does KNOVA cite sources and reduce unsupported answers?",
+    question: "Bagaimana KNOVA menyitasi sumber dan menekan jawaban tanpa dasar?",
     answer:
-      "KNOVA asks the model to answer from top-ranked document passages and returns the retrieved source excerpts with the response. Citation buttons let you inspect that evidence, but you should still verify important claims against the original document.",
+      "KNOVA meminta model menjawab dari passage dokumen berperingkat teratas dan mengembalikan kutipan sumber hasil retrieval bersama jawabannya. Tombol sitasi memungkinkan kamu memeriksa bukti tersebut, tetapi klaim penting tetap sebaiknya diverifikasi ke dokumen aslinya.",
   },
   {
-    question: "What is hybrid search and why does it outperform pure vector search?",
+    question: "Apa itu hybrid search dan kenapa lebih unggul dari vector search murni?",
     answer:
-      "Dense vector embeddings excel at broad conceptual semantics but often miss exact technical terms, product IDs, or financial figures. KNOVA pairs dense vector retrieval with BM25 sparse lexical search and fuses them using Reciprocal Rank Fusion (RRF) and cross-encoder reranking for maximum precision.",
+      "Dense vector embedding unggul pada makna konseptual yang luas, tetapi sering melewatkan istilah teknis persis, ID produk, atau angka finansial. KNOVA memasangkan dense vector retrieval dengan BM25 sparse lexical search, lalu menggabungkannya memakai Reciprocal Rank Fusion (RRF) dan cross-encoder reranking agar presisinya maksimal.",
   },
   {
-    question: "Is chat memory and document data isolated per session?",
+    question: "Apakah memori chat dan data dokumen terisolasi per sesi?",
     answer:
-      "Yes. Threads, messages, memory, sources, and retrieval are scoped to the authenticated user. Multi-turn context stays within the selected thread, and you can clear or delete a conversation at any time.",
+      "Ya. Thread, pesan, memori, sumber, dan retrieval dibatasi pada user yang sudah login. Konteks multi-turn tetap berada di dalam thread yang dipilih, dan kamu bisa membersihkan atau menghapus percakapan kapan saja.",
   },
   {
-    question: "Where is data stored and processed?",
+    question: "Di mana data disimpan dan diproses?",
     answer:
-      "Document vectors and application metadata are stored by the configured Chroma and SQL backends. Answer generation uses the configured model provider, so retrieved context may be sent to that provider; the current application is not an air-gapped deployment by default.",
+      "Vector dokumen dan metadata aplikasi disimpan oleh backend Chroma dan SQL yang dikonfigurasi. Pembuatan jawaban memakai model provider yang dikonfigurasi, jadi konteks hasil retrieval bisa dikirim ke provider tersebut; aplikasi ini secara default bukan deployment air-gapped.",
   },
   {
-    question: "How does KNOVA handle document structure?",
+    question: "Bagaimana KNOVA menangani struktur dokumen?",
     answer:
-      "KNOVA extracts text from PDF, DOCX, and TXT documents and preserves page metadata where the parser provides it. Scanned PDFs need OCR before upload, and spreadsheet ingestion is not currently supported.",
+      "KNOVA mengekstrak teks dari dokumen PDF, DOCX, dan TXT serta mempertahankan metadata halaman selama parser menyediakannya. PDF hasil scan perlu OCR sebelum diunggah, dan ingestion spreadsheet belum didukung saat ini.",
   },
   {
-    question: "How do you benchmark and evaluate retrieval quality?",
+    question: "Bagaimana kualitas retrieval diukur dan dievaluasi?",
     answer:
-      "KNOVA includes a RAGAS evaluation command for Faithfulness, Answer Relevancy, and Context Precision. It can enforce minimum thresholds against a versioned domain test dataset before a release.",
+      "KNOVA menyediakan perintah evaluasi RAGAS untuk Faithfulness, Answer Relevancy, dan Context Precision. Perintah itu bisa menegakkan ambang batas minimum terhadap dataset uji domain yang berversi sebelum rilis.",
   },
 ];
 
 export default function FrequentlyAskedQuestions({
   badge = "FAQ",
-  title = "Common questions, clear answers.",
-  description = "Everything you need to know about retrieval precision, data privacy, and architecture.",
+  title = "Pertanyaan umum, jawaban jelas.",
+  description = "Semua yang perlu kamu tahu soal presisi retrieval, privasi data, dan arsitektur.",
   data = defaultFAQs,
   className = "",
   supportEmail = "",
@@ -57,7 +57,7 @@ export default function FrequentlyAskedQuestions({
       id="faq"
       className={`faq-root-section ${className}`.trim()}
       data-nav-theme="light"
-      aria-label="Frequently Asked Questions"
+      aria-label="Pertanyaan yang Sering Diajukan"
     >
       <div className="faq-container">
         <div className="faq-grid">
@@ -67,9 +67,9 @@ export default function FrequentlyAskedQuestions({
             {badge && <div className="faq-badge">{badge}</div>}
 
             <h2 className="faq-headline">
-              {title === "Common questions, clear answers." ? (
+              {title === "Pertanyaan umum, jawaban jelas." ? (
                 <>
-                  Common questions,<br />clear answers.
+                  Pertanyaan umum,<br />jawaban jelas.
                 </>
               ) : (
                 title

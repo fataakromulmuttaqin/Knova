@@ -106,8 +106,8 @@ function MarkdownIcon() {
 
 const OUTER_ORBIT = [
   { id: 'drive', name: 'Google Drive', icon: <GoogleDriveIcon /> },
-  { id: 'web', name: 'Websites', icon: <WebIcon /> },
-  { id: 'upload', name: 'Local uploads', icon: <DocxIcon /> },
+  { id: 'web', name: 'Website', icon: <WebIcon /> },
+  { id: 'upload', name: 'Upload lokal', icon: <DocxIcon /> },
 ]
 
 const INNER_ORBIT = [
@@ -124,9 +124,9 @@ const RETRIEVAL_DOCS = [
 ]
 
 const INTEL_STEPS = [
-  { id: 'meaning', label: 'Meaning' },
-  { id: 'words', label: 'Exact words' },
-  { id: 'best', label: 'Best match' },
+  { id: 'meaning', label: 'Makna' },
+  { id: 'words', label: 'Kata persis' },
+  { id: 'best', label: 'Pencocokan terbaik' },
 ]
 
 const INTEL_PASSAGES = [
@@ -137,11 +137,11 @@ const INTEL_PASSAGES = [
 
 const GRAPH_NODES = [
   { id: 'hub', label: 'Thread', x: 230, y: 150, hub: true },
-  { id: 'question', label: 'Question', x: 58, y: 42 },
-  { id: 'answer', label: 'Answer', x: 392, y: 40 },
-  { id: 'sources', label: 'Sources', x: 414, y: 168 },
-  { id: 'citation', label: 'Citation', x: 52, y: 236 },
-  { id: 'followup', label: 'Follow-up', x: 286, y: 272 },
+  { id: 'question', label: 'Pertanyaan', x: 58, y: 42 },
+  { id: 'answer', label: 'Jawaban', x: 392, y: 40 },
+  { id: 'sources', label: 'Sumber', x: 414, y: 168 },
+  { id: 'citation', label: 'Sitasi', x: 52, y: 236 },
+  { id: 'followup', label: 'Tindak lanjut', x: 286, y: 272 },
 ]
 
 const GRAPH_EDGES = [
@@ -242,8 +242,8 @@ function RetrievalCard({ reduced }) {
       onMouseLeave={() => setActive(null)}
     >
       <div className="bx-copy">
-        <h3 id="bx-retrieval-title">Find what matters.</h3>
-        <p>Retrieve the right context from everything you know.</p>
+        <h3 id="bx-retrieval-title">Temukan yang penting.</h3>
+        <p>Ambil konteks yang tepat dari semua yang kamu punya.</p>
       </div>
       <div className="bx-visual">
         <div className="bx-retrieve">
@@ -264,7 +264,7 @@ function RetrievalCard({ reduced }) {
             <span className="bx-focal-core" />
           </div>
           <p className="bx-query">
-            What changed in our Q3 pricing?
+            Apa yang berubah di harga Q3 kami?
             <span className="bx-caret" aria-hidden="true" />
           </p>
           {RETRIEVAL_DOCS.map((doc) => {
@@ -358,8 +358,8 @@ function OrbitCard() {
         </div>
       </div>
       <div className="bx-copy">
-        <h3 id="bx-orbit-title">Supported sources, one index.</h3>
-        <p>Upload PDF, DOCX, or TXT files, add a website URL, or import supported Drive documents.</p>
+        <h3 id="bx-orbit-title">Sumber yang didukung, satu index.</h3>
+        <p>Upload file PDF, DOCX, atau TXT, tambahkan URL website, atau impor dokumen Drive yang didukung.</p>
       </div>
     </article>
   )
@@ -385,13 +385,13 @@ function IntelCard({ reduced }) {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="bx-copy">
-        <h3 id="bx-intel-title">Intelligent retrieval.</h3>
-        <p>Meaning and exact words meet, then the closest passage stays.</p>
+        <h3 id="bx-intel-title">Retrieval cerdas.</h3>
+        <p>Makna dan kata persis bertemu, lalu passage paling dekat yang dipakai.</p>
       </div>
       <div className="bx-visual">
         <div className={`bx-intel is-${phase}`}>
           <p className="bx-intel-query">
-            What changed in our Q3 pricing?
+            Apa yang berubah di harga Q3 kami?
             <span className="bx-caret" aria-hidden="true" />
           </p>
           <div className="bx-intel-phases">
@@ -444,8 +444,8 @@ function GraphCard({ reduced }) {
   return (
     <article ref={ref} className="bx-card bx-card-graph" aria-labelledby="bx-graph-title">
       <div className="bx-copy">
-        <h3 id="bx-graph-title">Keep the conversation in context.</h3>
-        <p>Questions, answers, citations, and follow-ups remain attached to your thread.</p>
+        <h3 id="bx-graph-title">Jaga percakapan tetap dalam konteks.</h3>
+        <p>Pertanyaan, jawaban, sitasi, dan tindak lanjut tetap menempel pada thread kamu.</p>
       </div>
       <div className="bx-visual">
         <div className="bx-graph-visual">
@@ -525,12 +525,12 @@ function SearchCard({ reduced }) {
   return (
     <article ref={ref} className="bx-card bx-card-search" aria-labelledby="bx-search-title">
       <div className="bx-copy">
-        <h3 id="bx-search-title">Search by meaning.</h3>
-        <p>Find useful knowledge instead of matching words blindly.</p>
+        <h3 id="bx-search-title">Cari berdasarkan makna.</h3>
+        <p>Temukan pengetahuan berguna, bukan sekadar mencocokkan kata.</p>
       </div>
       <div className="bx-visual">
         <div className="bx-search-stage">
-          <p className="bx-search-query">enterprise pricing</p>
+          <p className="bx-search-query">harga enterprise</p>
           <div className="bx-search-field">
             <span className="bx-search-link" aria-hidden="true" />
             {WHISPERS.map((item) => (
@@ -626,8 +626,8 @@ function TrustCard({ reduced }) {
   return (
     <article className="bx-card bx-card-trust" aria-labelledby="bx-trust-title">
       <div className="bx-copy">
-        <h3 id="bx-trust-title">Answers with inspectable evidence.</h3>
-        <p>Open the retrieved passages used to support each response.</p>
+        <h3 id="bx-trust-title">Jawaban dengan bukti yang bisa diperiksa.</h3>
+        <p>Buka passage hasil retrieval yang dipakai untuk mendukung setiap jawaban.</p>
       </div>
       <div className="bx-visual">
         <div ref={fieldRef} className={`bx-trust-field ${active ? 'is-live' : ''}`}>
@@ -656,7 +656,7 @@ function TrustCard({ reduced }) {
             </div>
           ))}
           <div className="bx-answer-wrap">
-            <p className="bx-question">What changed in our Q3 pricing strategy?</p>
+            <p className="bx-question">Apa yang berubah di strategi harga Q3 kami?</p>
             <p className="bx-answer">
               <span ref={(node) => { markRefs.current.billing = node }} className={`bx-em ${mark('billing', 'q3', 'notes') ? 'is-on' : ''}`}>
                 Usage-based billing
@@ -686,13 +686,13 @@ export default function BentoCapabilities() {
   const reduced = useReducedMotion()
 
   return (
-    <section id="capabilities" className="bento-section" data-nav-theme="dark" aria-label="Core capabilities">
+    <section id="capabilities" className="bento-section" data-nav-theme="dark" aria-label="Kemampuan inti">
       <div className="bento-inner">
         <div className="section-head-dark">
           <h2>
-            Core capabilities.
+            Kemampuan inti.
           </h2>
-          <p>Six working parts of the document question-and-answer workflow.</p>
+          <p>Enam bagian kerja dari alur tanya jawab dokumen.</p>
         </div>
 
         <div className="bx-grid">

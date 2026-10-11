@@ -6,18 +6,18 @@ import mdIcon from '../../assets/md-icon-clean.png'
 const STEPS = [
   {
     number: '01',
-    title: 'Bring it in.',
-    text: 'Uploaded documents, website pages, and supported Drive files enter a user-scoped index.',
+    title: 'Masukkan dokumennya.',
+    text: 'Dokumen yang diunggah, halaman website, dan file Drive yang didukung masuk ke index khusus milik user.',
   },
   {
     number: '02',
-    title: 'Find the passage.',
-    text: 'Meaning and exact words meet, and the closest passage stays.',
+    title: 'Temukan bagiannya.',
+    text: 'Makna dan kata persis bertemu, lalu passage paling dekat yang dipakai.',
   },
   {
     number: '03',
-    title: 'Show the proof.',
-    text: 'The answer includes citations that open the retrieved evidence for inspection.',
+    title: 'Tunjukkan buktinya.',
+    text: 'Jawaban menyertakan sitasi yang membuka bukti hasil retrieval untuk diperiksa.',
   },
 ]
 
@@ -88,11 +88,11 @@ export default function HowKnovaWorks() {
   }, [paused])
 
   return (
-    <section id="how-it-works" className="how-it-works-section" data-nav-theme="light" aria-label="How KNOVA Works">
+    <section id="how-it-works" className="how-it-works-section" data-nav-theme="light" aria-label="Cara Kerja KNOVA">
       <div className="how-it-works-inner">
         <header className="hw-head">
-          <h2>How it works.</h2>
-          <p>Three steps, from the file you already have to an answer you can check.</p>
+          <h2>Cara kerjanya.</h2>
+          <p>Tiga langkah, dari file yang sudah kamu punya sampai jawaban yang bisa kamu cek.</p>
         </header>
 
         <div

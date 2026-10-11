@@ -158,14 +158,14 @@ function AppShell({ children, toasts, onDismissToast }) {
                   <span>KNOVA</span>
                 </Link>
                 <nav className="top-links" aria-label="Primary navigation">
-                  <Link to="/#capabilities" className="top-link">Features</Link>
-                  <Link to="/#how-it-works" className="top-link">How it works</Link>
-                  <Link to="/docs" className="top-link">Docs</Link>
+                  <Link to="/#capabilities" className="top-link">Fitur</Link>
+                  <Link to="/#how-it-works" className="top-link">Cara kerja</Link>
+                  <Link to="/docs" className="top-link">Dokumentasi</Link>
                   <Link to="/#faq" className="top-link">FAQ</Link>
                 </nav>
                 <div className="top-actions">
-                  <Link to="/login?mode=signin" className="navbar-button secondary">Login</Link>
-                  <Link to="/login?mode=signup" className="navbar-button primary">Get started</Link>
+                  <Link to="/login?mode=signin" className="navbar-button secondary">Masuk</Link>
+                  <Link to="/login?mode=signup" className="navbar-button primary">Mulai</Link>
                   <button
                     className="mobile-menu-btn"
                     type="button"
@@ -180,14 +180,14 @@ function AppShell({ children, toasts, onDismissToast }) {
               {mobileOpen && (
                 <nav className="mobile-menu is-open" aria-label="Mobile navigation">
                   <div className="mobile-menu-links">
-                    <Link to="/#capabilities" className="mobile-menu-link" onClick={() => setMobileOpen(false)}>Features</Link>
-                    <Link to="/#how-it-works" className="mobile-menu-link" onClick={() => setMobileOpen(false)}>How it works</Link>
-                    <Link to="/docs" className="mobile-menu-link" onClick={() => setMobileOpen(false)}>Docs</Link>
+                    <Link to="/#capabilities" className="mobile-menu-link" onClick={() => setMobileOpen(false)}>Fitur</Link>
+                    <Link to="/#how-it-works" className="mobile-menu-link" onClick={() => setMobileOpen(false)}>Cara kerja</Link>
+                    <Link to="/docs" className="mobile-menu-link" onClick={() => setMobileOpen(false)}>Dokumentasi</Link>
                     <Link to="/#faq" className="mobile-menu-link" onClick={() => setMobileOpen(false)}>FAQ</Link>
                   </div>
                   <div className="mobile-menu-actions">
-                    <Link to="/login?mode=signin" className="navbar-button secondary" onClick={() => setMobileOpen(false)}>Login</Link>
-                    <Link to="/login?mode=signup" className="navbar-button primary" onClick={() => setMobileOpen(false)}>Get started</Link>
+                    <Link to="/login?mode=signin" className="navbar-button secondary" onClick={() => setMobileOpen(false)}>Masuk</Link>
+                    <Link to="/login?mode=signup" className="navbar-button primary" onClick={() => setMobileOpen(false)}>Mulai</Link>
                   </div>
                 </nav>
               )}
@@ -226,7 +226,7 @@ function AppShell({ children, toasts, onDismissToast }) {
 
 function HomePage() {
   const homeRef = useRef(null)
-  const words = useMemo(() => ['Docs', 'Links', 'PDFs'], [])
+  const words = useMemo(() => ['Dokumen', 'Tautan', 'PDF'], [])
   const [wordIndex, setWordIndex] = useState(0)
 
   const currentWord = words[wordIndex]
@@ -243,23 +243,23 @@ function HomePage() {
   return (
     <div className="home-page" ref={homeRef}>
       <section className="hero-section" data-nav-theme="dark">
-        <img className="hero-image" src={heroImage} alt="Open field landscape representing an accessible knowledge workspace" fetchpriority="high" />
+        <img className="hero-image" src={heroImage} alt="Lanskap lapangan terbuka sebagai gambaran workspace pengetahuan yang mudah diakses" fetchpriority="high" />
         <div className="hero-overlay" aria-hidden="true" />
         <div className="hero-grid">
           <div className="hero-copy-block">
             <h1>
-              Rag application <br />
+              Aplikasi RAG <br />
               <span className="hero-your-word">
-                for your <span key={currentWord} className="typed-word">{currentWord}</span>
+                untuk <span key={currentWord} className="typed-word">{currentWord}</span> kamu
               </span>
             </h1>
             <p className="hero-copy">
-              Connect, process, and query your knowledge base in one seamless, high-performance interface.
-              Engineered for speed, precision, and absolute clarity.
+              Hubungkan, proses, dan tanyakan knowledge base kamu dalam satu antarmuka mulus berperforma tinggi.
+              Dirancang untuk kecepatan, presisi, dan kejelasan mutlak.
             </p>
             <div className="hero-actions">
-              <Link to="/data" className="btn-primary-solid">Get Started <ArrowRight size={15} /></Link>
-              <Link to="/docs" className="btn-glass">View Documentation</Link>
+              <Link to="/data" className="btn-primary-solid">Mulai <ArrowRight size={15} /></Link>
+              <Link to="/docs" className="btn-glass">Lihat Dokumentasi</Link>
             </div>
           </div>
         </div>
@@ -282,21 +282,21 @@ function HomePage() {
         </div>
         <div className="prompt-card">
           <p>
-            Crafting intelligent retrieval experiences that blend speed, clarity, and purpose.
-            Every query is designed to surface your knowledge effectively while maintaining precision and simplicity.
+            Merancang pengalaman retrieval cerdas yang memadukan kecepatan, kejelasan, dan tujuan.
+            Setiap query dirancang untuk memunculkan pengetahuanmu secara efektif tanpa mengorbankan presisi dan kesederhanaan.
           </p>
           <div className="prompt-tags">
-            <span><Database size={12} /> Data Processing</span>
+            <span><Database size={12} /> Pengolahan Data</span>
             <span><FolderSync size={12} /> Knowledge Base</span>
-            <span><FileText size={12} /> Document Q&A</span>
-            <span><ArrowUp size={12} /> Analytics</span>
+            <span><FileText size={12} /> Tanya Jawab Dokumen</span>
+            <span><ArrowUp size={12} /> Analitik</span>
           </div>
           <div className="prompt-actions">
-            <button type="button" className="language-pill">English</button>
-            <Link to="/data" className="generate-pill">Generate <ArrowRight size={14} /></Link>
+            <button type="button" className="language-pill">Indonesia</button>
+            <Link to="/data" className="generate-pill">Buat <ArrowRight size={14} /></Link>
           </div>
         </div>
-        <p className="built-label">Built for your</p>
+        <p className="built-label">Dibuat untuk</p>
         <KnowledgeSourcesMarquee />
       </section>
 
@@ -317,10 +317,10 @@ function HomePage() {
 
       {/* 8. Final CTA (Dark Texture) */}
       <section className="cta-section" data-nav-theme="light" style={{ '--cta-image': `url(${ctaTexture})` }}>
-        <h2>Turn your knowledge into answers</h2>
+        <h2>Ubah pengetahuanmu menjadi jawaban</h2>
         <div className="cta-actions">
-          <Link className="btn-primary-solid" to="/data">Get Started Now</Link>
-          <Link className="btn-outline" to="/chat">Request Demo</Link>
+          <Link className="btn-primary-solid" to="/data">Mulai Sekarang</Link>
+          <Link className="btn-outline" to="/chat">Minta Demo</Link>
         </div>
       </section>
 
