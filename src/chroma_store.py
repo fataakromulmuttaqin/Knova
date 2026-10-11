@@ -9,13 +9,13 @@ import numpy as np
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
 
-from src.embedding import EmbeddingPipeline
+from src.embedding import DEFAULT_EMBEDDING_MODEL, EmbeddingPipeline
 
 
 class ChromaVectorStore:
     """Tenant-scoped Chroma storage with deterministic source and chunk IDs."""
 
-    def __init__(self, persist_dir: str = "chroma_store", collection_name: str = "ragkno_store", embedding_model: str = "all-MiniLM-L6-v2", chunk_size: int = 1000, chunk_overlap: int = 200, load_model: bool = True):
+    def __init__(self, persist_dir: str = "chroma_store", collection_name: str = "knova_store", embedding_model: str = DEFAULT_EMBEDDING_MODEL, chunk_size: int = 1000, chunk_overlap: int = 200, load_model: bool = True):
         self.persist_dir = persist_dir
         os.makedirs(self.persist_dir, exist_ok=True)
         self.collection_name = collection_name

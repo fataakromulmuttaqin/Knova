@@ -15,6 +15,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from sentence_transformers import CrossEncoder
 
 from src.chroma_store import ChromaVectorStore
+from src.embedding import DEFAULT_EMBEDDING_MODEL
 
 try:
     from rank_bm25 import BM25Okapi
@@ -24,7 +25,7 @@ except Exception:
 load_dotenv()
 
 class RAGSearch:
-    def __init__(self, persist_dir: str = "chroma_store", embedding_model: str = "all-MiniLM-L6-v2", llm_model: str = "deepseek-v4-flash"):
+    def __init__(self, persist_dir: str = "chroma_store", embedding_model: str = DEFAULT_EMBEDDING_MODEL, llm_model: str = "deepseek-v4-flash"):
         self.vectorstore = ChromaVectorStore(persist_dir=persist_dir, embedding_model=embedding_model)
         print(f"[INFO] RAGSearch using ChromaVectorStore at '{persist_dir}'")
 

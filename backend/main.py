@@ -94,12 +94,13 @@ from src.chroma_store import ChromaVectorStore
 from src.database import Database
 from src.chat_memory import ChatMemoryStore
 from src.ingest import MAX_UPLOAD_BYTES, load_uploaded_file, load_url_content
+from src.vault_writer import record_sources as _vault_record_sources
 
 # ---------------------------------------------------------------------------
 # App setup
 # ---------------------------------------------------------------------------
 
-_DATA_ROOT = Path(os.getenv("RAGKNO_DATA_DIR", str(_PROJECT_ROOT))).expanduser()
+_DATA_ROOT = Path(os.getenv("KNOVA_DATA_DIR", str(_PROJECT_ROOT))).expanduser()
 STORE_DIR = str(
     Path(
         os.getenv(
@@ -109,14 +110,14 @@ STORE_DIR = str(
     ).expanduser()
 )
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
-SESSION_COOKIE_NAME = "ragkno_session"
+SESSION_COOKIE_NAME = "knova_session"
 SESSION_TTL_SECONDS = 60 * 60 * 24 * 7
 APP_LOGIN_REDIRECT_URI = os.getenv("GOOGLE_APP_REDIRECT_URI", "http://localhost:8000/login/google/callback")
-SESSION_SECRET = os.getenv("RAGKNO_SESSION_SECRET") or os.getenv("GOOGLE_CLIENT_SECRET") or "ragkno-dev-session-secret"
+SESSION_SECRET = os.getenv("KNOVA_SESSION_SECRET") or os.getenv("GOOGLE_CLIENT_SECRET") or "knova-dev-session-secret"
 
 if os.getenv("ENV", "").lower() in {"production", "prod"}:
-    if SESSION_SECRET == "ragkno-dev-session-secret" or len(SESSION_SECRET) < 32:
-        raise RuntimeError("RAGKNO_SESSION_SECRET must be set to at least 32 characters in production")
+    if SESSION_SECRET == "knova-dev-session-secret" or len(SESSION_SECRET) < 32:
+        raise RuntimeError("KNOVA_SESSION_SECRET must be set to at least 32 characters in production")
     if not FRONTEND_URL.startswith("https://"):
         raise RuntimeError("FRONTEND_URL must use HTTPS in production")
     if not os.getenv("DATABASE_URL"):
@@ -248,7 +249,7 @@ def _session_user_from_request(request: Request) -> dict | None:
     return {
         "id": payload.get("sub"),
         "email": payload.get("email"),
-        "name": payload.get("name") or payload.get("email") or "RagKno user",
+        "name": payload.get("name") or payload.get("email") or "Knova user",
         "picture": payload.get("picture"),
         "provider": payload.get("provider"),
         "csrf": payload.get("csrf"),
@@ -393,6 +394,8 @@ def login_google_callback(
             token,
             GoogleAuthRequest(),
             os.getenv("GOOGLE_CLIENT_ID"),
+            # Tolerate a local clock that trails Google's by a few seconds.
+            clock_skew_in_seconds=60,
         )
         stored_user = _db.upsert_user(user_info)
     except Exception as e:
@@ -801,6 +804,7 @@ def _index_drive(user, req, progress=None):
         for item in indexed:
             _db.record_user_source(user_id, source_key=item["source_key"], source_name=item["source_name"], source_type="drive", chunk_count=item["chunk_count"])
         _invalidate_retrieval_cache()
+        _vault_record_sources(user_id, docs, indexed)
 
         if selected_file_ids is not None:
             return {
@@ -865,7 +869,7 @@ def _index_uploaded_files(user, files, progress=None):
             continue
         content = file.file.read(MAX_UPLOAD_BYTES + 1)
         if len(content) > MAX_UPLOAD_BYTES:
-            result["error"] = "File exceeds the 50MB limit"
+            result["error"] = "File exceeds the 100MB limit"
             preliminary.append(result)
             continue
         try:
@@ -892,6 +896,7 @@ def _index_uploaded_files(user, files, progress=None):
         for item in indexed:
             _db.record_user_source(user_id, source_key=item["source_key"], source_name=item["source_name"], source_type="upload", chunk_count=item["chunk_count"])
         _invalidate_retrieval_cache()
+        _vault_record_sources(user_id, documents, indexed)
 
         indexed_by_name = {str(item.get("source_name")): item for item in indexed}
         results = []
@@ -958,8 +963,8 @@ def queue_uploaded_files(request: Request, files: list[UploadFile] = File(...)):
             raise HTTPException(status_code=400, detail=f"Unsupported file: {name}")
         content = file.file.read(MAX_UPLOAD_BYTES + 1)
         total += len(content)
-        if not content or len(content) > MAX_UPLOAD_BYTES or total > 100 * 1024 * 1024:
-            raise HTTPException(status_code=400, detail="Files must be non-empty, under 50MB each and 100MB total.")
+        if not content or len(content) > MAX_UPLOAD_BYTES or total > 200 * 1024 * 1024:
+            raise HTTPException(status_code=400, detail="Files must be non-empty, under 100MB each and 200MB total.")
         accepted.append((name, file.content_type or "", content))
     try:
         return _ingestion_jobs.submit(user["id"], accepted)
@@ -1010,6 +1015,7 @@ def ingest_url(req: UrlIngestRequest, request: Request):
         item = indexed[0]
         _db.record_user_source(user_id, source_key=item["source_key"], source_name=item["source_name"], source_type="url", chunk_count=item["chunk_count"])
         _invalidate_retrieval_cache()
+        _vault_record_sources(user_id, docs, indexed)
 
         return {
             "ok": True,

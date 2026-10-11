@@ -7,10 +7,15 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sentence_transformers import SentenceTransformer
 import numpy as np
 
+# Single source of truth for the embedding model. Swap it with
+# RAG_EMBEDDING_MODEL; every chunk must be re-embedded when it changes.
+DEFAULT_EMBEDDING_MODEL = os.getenv("RAG_EMBEDDING_MODEL", "all-MiniLM-L6-v2").strip() or "all-MiniLM-L6-v2"
+
+
 class EmbeddingPipeline:
     def __init__(
         self,
-        model_name: str = "all-MiniLM-L6-v2",
+        model_name: str = DEFAULT_EMBEDDING_MODEL,
         chunk_size: int = 1000,
         chunk_overlap: int = 200,
         parent_chunk_size: int = 2200,

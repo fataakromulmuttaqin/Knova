@@ -1,10 +1,11 @@
 import json
 import threading
 import time
+from pathlib import Path
 
 import pytest
 
-from src.ingestion_jobs import IngestionJobs
+from src.ingestion_jobs import IngestionJobs, _read_json_with_retry, _replace_with_retry
 
 
 def wait_until(predicate):
@@ -69,3 +70,56 @@ def test_failed_job_has_safe_error_and_removes_upload(tmp_path):
         wait_until(lambda: not (tmp_path / job['job_id'] / '0').exists())
     finally:
         queue.stop()
+
+
+def test_status_write_survives_a_reader_holding_the_file_open(tmp_path):
+    """Windows refuses os.replace while a reader holds the target open.
+
+    Status is polled through the API while the worker writes it, so a plain replace
+    made large uploads fail with PermissionError [WinError 5].
+    """
+    queue = IngestionJobs(tmp_path, lambda *args: {'ok': True, 'source_count': 1})
+    directory = tmp_path / 'busy'
+    directory.mkdir()
+    queue._write(directory, {'job_id': 'busy', 'user_id': 'alice', 'status': 'queued', 'percent': 0})
+
+    with (directory / 'status.json').open('r', encoding='utf-8') as holder:
+        assert holder.read()
+        queue._write(directory, {'job_id': 'busy', 'user_id': 'alice', 'status': 'running', 'percent': 42})
+
+    assert queue.get('busy', 'alice')['percent'] == 42
+
+
+def test_status_reader_retries_a_partially_written_file(tmp_path):
+    target = tmp_path / 'status.json'
+    target.write_text('{"job_id": "x", ', encoding='utf-8')
+
+    def repair():
+        time.sleep(.03)
+        target.write_text('{"job_id": "x", "status": "queued"}', encoding='utf-8')
+
+    thread = threading.Thread(target=repair)
+    thread.start()
+    try:
+        assert _read_json_with_retry(target)['status'] == 'queued'
+    finally:
+        thread.join()
+
+
+def test_replace_helper_writes_through_when_renaming_is_denied(tmp_path, monkeypatch):
+    target = tmp_path / 'status.json'
+    target.write_text('{"percent": 1}', encoding='utf-8')
+    source = tmp_path / 'next.tmp'
+    source.write_text('{"percent": 2}', encoding='utf-8')
+
+    def denied(self, other):
+        raise PermissionError(5, 'Access is denied')
+
+    monkeypatch.setattr(Path, 'replace', denied)
+    monkeypatch.setattr('src.ingestion_jobs._REPLACE_ATTEMPTS', 2)
+    monkeypatch.setattr('src.ingestion_jobs._REPLACE_DELAY_SECONDS', 0)
+
+    _replace_with_retry(source, target)
+
+    assert json.loads(target.read_text(encoding='utf-8'))['percent'] == 2
+    assert not source.exists()

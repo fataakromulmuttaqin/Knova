@@ -52,7 +52,7 @@ class Database:
             )
         else:
             # Local SQLite fallback if DATABASE_URL is not yet provided in .env
-            local_db_path = Path("data/ragkno.sqlite3")
+            local_db_path = Path("data/knova.sqlite3")
             local_db_path.parent.mkdir(parents=True, exist_ok=True)
             self.database_url = f"sqlite:///{local_db_path.resolve()}"
             self.is_postgres = False

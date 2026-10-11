@@ -16,6 +16,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from ragas import evaluate
 from ragas.metrics.collections import answer_relevancy, context_precision, faithfulness
 
+from src.embedding import DEFAULT_EMBEDDING_MODEL
 from src.search import RAGSearch
 
 
@@ -84,7 +85,9 @@ def main() -> None:
         if not google_api_key:
             raise ValueError("Neither AGENTROUTER_API_KEY nor GOOGLE_API_KEY found in .env.")
         eval_llm = ChatGoogleGenerativeAI(google_api_key=google_api_key, model=args.llm_model)
-    eval_embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    eval_embeddings = HuggingFaceEmbeddings(
+        model_name=f"sentence-transformers/{os.getenv('RAG_EMBEDDING_MODEL', DEFAULT_EMBEDDING_MODEL)}"
+    )
 
     result = evaluate(
         dataset=eval_dataset,

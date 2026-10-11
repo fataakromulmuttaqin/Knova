@@ -1,5 +1,4 @@
 """Durable ingestion queue for a single-host deployment; one worker across processes."""
-import fcntl
 import json
 import logging
 import os
@@ -9,7 +8,66 @@ import time
 import uuid
 from pathlib import Path
 
+if os.name == "nt":
+    import msvcrt
+
+    def _flock(lock, blocking=True):
+        # msvcrt.LK_LOCK gives up after ~10s, so retry to match fcntl semantics.
+        while True:
+            try:
+                lock.seek(0)
+                msvcrt.locking(lock.fileno(), msvcrt.LK_LOCK if blocking else msvcrt.LK_NBLCK, 1)
+                return
+            except OSError as exc:
+                if blocking:
+                    time.sleep(0.2)
+                    continue
+                raise BlockingIOError(*exc.args) from exc
+else:
+    import fcntl
+
+    def _flock(lock, blocking=True):
+        fcntl.flock(lock, fcntl.LOCK_EX | (0 if blocking else fcntl.LOCK_NB))
+
 log = logging.getLogger(__name__)
+
+_REPLACE_ATTEMPTS = 10
+_REPLACE_DELAY_SECONDS = 0.05
+_READ_ATTEMPTS = 3
+_READ_DELAY_SECONDS = 0.02
+
+
+def _replace_with_retry(source: Path, target: Path) -> None:
+    """Move source onto target, tolerating Windows readers that block the rename.
+
+    Windows refuses os.replace while another handle holds the target open, and the
+    API polls these status files while the worker writes them. Retry briefly, then
+    write through the existing file: Windows permits that shared write.
+    """
+    for attempt in range(_REPLACE_ATTEMPTS):
+        try:
+            source.replace(target)
+            return
+        except PermissionError:
+            if attempt == _REPLACE_ATTEMPTS - 1:
+                break
+            time.sleep(_REPLACE_DELAY_SECONDS)
+    with target.open('w') as handle:
+        handle.write(source.read_text())
+        handle.flush()
+        os.fsync(handle.fileno())
+    source.unlink(missing_ok=True)
+
+
+def _read_json_with_retry(path: Path):
+    """Read a status file, retrying briefly while a writer replaces it."""
+    for attempt in range(_READ_ATTEMPTS):
+        try:
+            return json.loads(path.read_text())
+        except ValueError:
+            if attempt == _READ_ATTEMPTS - 1:
+                raise
+            time.sleep(_READ_DELAY_SECONDS)
 
 
 class IngestionJobs:
@@ -25,13 +83,13 @@ class IngestionJobs:
         temporary = directory / (uuid.uuid4().hex + '.tmp')
         temporary.write_text(json.dumps(job))
         os.chmod(temporary, 0o600)
-        temporary.replace(directory / 'status.json')
+        _replace_with_retry(temporary, directory / 'status.json')
 
     def get(self, job_id, user_id):
         if not str(job_id).isalnum():
             raise KeyError(job_id)
         try:
-            job = json.loads((self.root / job_id / 'status.json').read_text())
+            job = _read_json_with_retry(self.root / job_id / 'status.json')
         except (OSError, ValueError):
             raise KeyError(job_id)
         if job['user_id'] != user_id:
@@ -41,7 +99,7 @@ class IngestionJobs:
     def active(self, user_id):
         jobs = []
         for path in self.root.glob('*/status.json'):
-            job = json.loads(path.read_text())
+            job = _read_json_with_retry(path)
             if job['user_id'] == user_id and job['status'] in {'queued', 'running'}:
                 jobs.append(self.get(job['job_id'], user_id))
         return jobs
@@ -49,8 +107,8 @@ class IngestionJobs:
     def submit(self, user_id, files=(), kind='upload', payload=None):
         # Serialize admission across threads/processes; bound storage and CPU backlog.
         with (self.root / 'admission.lock').open('a') as lock:
-            fcntl.flock(lock, fcntl.LOCK_EX)
-            records = [json.loads(path.read_text()) for path in self.root.glob('*/status.json')]
+            _flock(lock)
+            records = [_read_json_with_retry(path) for path in self.root.glob('*/status.json')]
             pending = [job for job in records if job['status'] in {'queued', 'running'}]
             if any(job['user_id'] == user_id for job in pending):
                 raise ValueError('You already have documents processing. Wait for them to finish before adding more.')
@@ -92,25 +150,33 @@ class IngestionJobs:
         with (self.root / 'worker.lock').open('a') as lock:
             while not self._stop.is_set():
                 try:
-                    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    _flock(lock, blocking=False)
                     break
                 except BlockingIOError:
                     self._stop.wait(1)
             if self._stop.is_set():
                 return
             for path in self.root.glob('*/status.json'):
-                job = json.loads(path.read_text())
+                job = _read_json_with_retry(path)
                 if job['status'] == 'running':
                     job.update(status='queued', phase='Resuming indexing', percent=0)
                     self._write(path.parent, job)
             while not self._stop.is_set():
                 paths = sorted(self.root.glob('*/status.json'), key=lambda path: path.parent.name)
-                jobs = [(path, json.loads(path.read_text())) for path in paths]
+                jobs = [(path, _read_json_with_retry(path)) for path in paths]
                 queued = sorted([(path, job) for path, job in jobs if job['status'] == 'queued'], key=lambda item: item[1]['created_at'])
                 for path, job in queued:
                     directory = path.parent
+                    last_reported = {'phase': None, 'percent': None}
+
                     def progress(phase, percent):
-                        job.update(status='running', phase=phase, percent=int(percent), updated_at=time.time())
+                        value = int(percent)
+                        # Skip duplicate writes: every write contends with the API
+                        # polling this same file, which is what breaks writes on Windows.
+                        if phase == last_reported['phase'] and value == last_reported['percent']:
+                            return
+                        last_reported.update(phase=phase, percent=value)
+                        job.update(status='running', phase=phase, percent=value, updated_at=time.time())
                         self._write(directory, job)
                     try:
                         progress('Reading documents', 2)

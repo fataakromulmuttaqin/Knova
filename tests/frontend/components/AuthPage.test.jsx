@@ -39,7 +39,7 @@ describe('account page modes', () => {
     renderAuth()
 
     expect(screen.getByRole('heading', { name: 'Create your account' })).toBeTruthy()
-    expect(screen.getByRole('link', { name: 'RagKno' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'Knova' })).toBeTruthy()
     expect(screen.getByTestId('location').textContent).toBe('/login?mode=signup')
 
     fireEvent.click(screen.getAllByRole('button', { name: 'Sign in' })[0])

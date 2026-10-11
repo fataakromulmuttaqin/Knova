@@ -12,7 +12,7 @@ from langchain_community.document_loaders import Docx2txtLoader, PyPDFLoader, Te
 
 
 SUPPORTED_EXTENSIONS = {".pdf", ".txt", ".docx"}
-MAX_UPLOAD_BYTES = 50 * 1024 * 1024
+MAX_UPLOAD_BYTES = 100 * 1024 * 1024
 MAX_URL_BYTES = 5 * 1024 * 1024
 MAX_REDIRECTS = 5
 
@@ -29,7 +29,7 @@ def load_uploaded_file(file_name: str, content: bytes) -> List[Document]:
     if not content:
         return []
     if len(content) > MAX_UPLOAD_BYTES:
-        raise ValueError(f"File '{file_name}' exceeds 50MB limit")
+        raise ValueError(f"File '{file_name}' exceeds 100MB limit")
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
         tmp.write(content)
@@ -88,7 +88,7 @@ def load_url_content(url: str, timeout: int = 15) -> List[Document]:
     response = None
     session = requests.Session()
     for _ in range(MAX_REDIRECTS + 1):
-        response = session.get(clean_url, timeout=timeout, headers={"User-Agent": "RAGKNOBot/1.0"}, allow_redirects=False, stream=True)
+        response = session.get(clean_url, timeout=timeout, headers={"User-Agent": "KNOVABot/1.0"}, allow_redirects=False, stream=True)
         if response.is_redirect or response.is_permanent_redirect:
             target = response.headers.get("location")
             response.close()

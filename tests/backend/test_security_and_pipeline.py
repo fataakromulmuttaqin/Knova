@@ -12,9 +12,9 @@ from langchain_core.documents import Document
 
 @pytest.fixture()
 def api(tmp_path, monkeypatch):
-    monkeypatch.setenv("RAGKNO_DATA_DIR", str(tmp_path))
+    monkeypatch.setenv("KNOVA_DATA_DIR", str(tmp_path))
     monkeypatch.setenv("DATABASE_URL", f"sqlite:///{tmp_path / 'test.sqlite3'}")
-    monkeypatch.setenv("RAGKNO_SESSION_SECRET", "test-secret")
+    monkeypatch.setenv("KNOVA_SESSION_SECRET", "test-secret")
     monkeypatch.setenv("FRONTEND_URL", "http://localhost:5173")
 
     import src.database as database_module
