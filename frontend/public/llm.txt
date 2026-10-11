@@ -1,6 +1,6 @@
-# RagKno
+# Knova
 
-> RagKno is an open-source retrieval-augmented generation workspace for asking questions about documents, public web pages, and Google Drive files, with streamed answers and source citations.
+> Knova is an open-source retrieval-augmented generation workspace for asking questions about documents, public web pages, and Google Drive files, with streamed answers and source citations.
 
 ## Product
 
@@ -11,12 +11,12 @@
 
 ## Public resources
 
-- [Homepage](https://ragkno.com/): Product overview.
-- [Documentation](https://ragkno.com/docs): Quickstart, supported sources, citations, self-hosting, and troubleshooting.
-- [Privacy policy](https://ragkno.com/privacy): Account and document data handling.
-- [Terms](https://ragkno.com/terms): Terms of use.
-- [Cookie policy](https://ragkno.com/cookies): Cookie information.
-- [Source repository](https://github.com/GitHpriyanshu23/Ragkno): Source code and contribution resources; Apache License 2.0.
+- [Homepage](https://knova.com/): Product overview.
+- [Documentation](https://knova.com/docs): Quickstart, supported sources, citations, self-hosting, and troubleshooting.
+- [Privacy policy](https://knova.com/privacy): Account and document data handling.
+- [Terms](https://knova.com/terms): Terms of use.
+- [Cookie policy](https://knova.com/cookies): Cookie information.
+- [Source repository](https://github.com/GitHpriyanshu23/Knova): Source code and contribution resources; Apache License 2.0.
 
 ## Scope
 

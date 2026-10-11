@@ -8,7 +8,7 @@ import { I18nProvider } from './lib/i18n.jsx'
 try {
   document.documentElement.classList.remove('dark')
   document.documentElement.removeAttribute('data-theme')
-  localStorage.removeItem('ragkno_appearance')
+  localStorage.removeItem('knova_appearance')
 } catch {}
 
 ReactDOM.createRoot(document.getElementById('root')).render(

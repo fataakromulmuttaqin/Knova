@@ -73,7 +73,7 @@ export default function UseCasesSection() {
         <div className="section-head-dark editorial-workflow-head">
           <span className="section-badge-dark"><BookOpen size={12} /> WORKING WITH YOUR KNOWLEDGE</span>
           <h2 id="workflows-title">One retrieval workflow.<br />Many kinds of questions.</h2>
-          <p>Use RagKno where the supporting document matters as much as the generated answer.</p>
+          <p>Use Knova where the supporting document matters as much as the generated answer.</p>
         </div>
 
         <div className="workflow-desktop">

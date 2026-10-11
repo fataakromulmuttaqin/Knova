@@ -9,9 +9,9 @@ export default function SiteFooter() {
         <div className="footer-brand">
           <Link to="/" className="footer-logo-link">
             <img src={brandLogoDark} alt="" className="footer-logo-img" />
-            <span>RAGKNO</span>
+            <span>KNOVA</span>
           </Link>
-          <p className="footer-copyright">© RagKno 2026. All rights reserved.</p>
+          <p className="footer-copyright">© Knova 2026. All rights reserved.</p>
           <AskAI />
         </div>
 
@@ -27,7 +27,7 @@ export default function SiteFooter() {
             <Link to="/docs">Documentation</Link>
             <Link to="/#how-it-works">How it works</Link>
             <Link to="/#faq">FAQ</Link>
-            <a href="https://github.com/GitHpriyanshu23/Ragkno" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://github.com/GitHpriyanshu23/Knova" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
           <div className="footer-col">
             <h4>Legal</h4>
@@ -42,7 +42,7 @@ export default function SiteFooter() {
           </div>
         </div>
       </div>
-      <div className="footer-watermark" aria-hidden="true">RagKno</div>
+      <div className="footer-watermark" aria-hidden="true">Knova</div>
     </footer>
   )
 }

@@ -37,7 +37,7 @@ export default function HelpModal({ isOpen, onClose }) {
             <div className="settings-row" style={{ alignItems: 'flex-start' }}>
               <div className="settings-label">
                 <strong>2. Ask Anything in Chat</strong>
-                <span>Type your question. RagKno searches your indexed documents using dense vectors and BM25 keywords, re-ranks the best chunks, and cites sources with `[1]` badges.</span>
+                <span>Type your question. Knova searches your indexed documents using dense vectors and BM25 keywords, re-ranks the best chunks, and cites sources with `[1]` badges.</span>
               </div>
             </div>
             <div className="settings-row" style={{ alignItems: 'flex-start' }}>

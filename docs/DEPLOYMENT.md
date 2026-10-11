@@ -1,4 +1,4 @@
-# Deploy RagKno with Cloudflare Pages and Hugging Face Spaces
+# Deploy Knova with Cloudflare Pages and Hugging Face Spaces
 
 This guide deploys the React frontend to Cloudflare Pages, the FastAPI backend to a Hugging Face Docker Space, and keeps application state in managed PostgreSQL plus persistent Space storage.
 
@@ -6,7 +6,7 @@ This guide deploys the React frontend to Cloudflare Pages, the FastAPI backend t
 
 Hugging Face currently lists **CPU Basic** as 2 vCPU, 16 GB RAM, and 50 GB of non-persistent disk. It sleeps after inactivity. Hugging Face also states that creating a Docker or Gradio compute Space requires a paid account plan; the no-cost personal option is limited to eligible ZeroGPU Gradio Spaces. Confirm the current terms in the [Spaces overview](https://huggingface.co/docs/hub/en/spaces-overview) and [hardware documentation](https://huggingface.co/docs/hub/en/spaces-gpus) before depending on this design.
 
-The default Space disk is ephemeral. RagKno's Chroma index must survive restarts, so attach a [Storage Bucket or persistent storage](https://huggingface.co/docs/hub/main/spaces-storage) at `/data`. Deploying without it can leave PostgreSQL source records that point to vectors that no longer exist.
+The default Space disk is ephemeral. Knova's Chroma index must survive restarts, so attach a [Storage Bucket or persistent storage](https://huggingface.co/docs/hub/main/spaces-storage) at `/data`. Deploying without it can leave PostgreSQL source records that point to vectors that no longer exist.
 
 This platform combination is suitable for an open-source demo and moderate personal use. Cold starts, sleeping, CPU-only inference, and Space-plan requirements make it less predictable for an always-on production service. For a commercial deployment, use a backend host with an always-on 8–16 GB instance or move vectors to a managed service such as Qdrant, Pinecone, or PostgreSQL with pgvector.
 
@@ -64,19 +64,19 @@ The repository's `frontend/functions/api/[[path]].js` becomes the `/api/*` proxy
 
 ## 3. Configure Google OAuth
 
-In the Google Cloud Console, configure the final frontend origin. If the production frontend is `https://ragkno.example.com`, add:
+In the Google Cloud Console, configure the final frontend origin. If the production frontend is `https://knova.example.com`, add:
 
 **Authorized JavaScript origin**
 
 ```text
-https://ragkno.example.com
+https://knova.example.com
 ```
 
 **Authorized redirect URIs**
 
 ```text
-https://ragkno.example.com/api/login/google/callback
-https://ragkno.example.com/api/auth/callback
+https://knova.example.com/api/login/google/callback
+https://knova.example.com/api/auth/callback
 ```
 
 Use exact URLs. Preview deployments have different hosts; add a specific preview callback only when you intend to test OAuth there.
@@ -98,7 +98,7 @@ Add these as **Secrets**, never ordinary variables:
 ```env
 DATABASE_URL=postgresql://...
 AGENTROUTER_API_KEY=...
-RAGKNO_SESSION_SECRET=...
+KNOVA_SESSION_SECRET=...
 GOOGLE_CLIENT_ID=...
 GOOGLE_CLIENT_SECRET=...
 ```
@@ -117,11 +117,11 @@ AGENTROUTER_MODEL=deepseek-v4-flash
 AGENTROUTER_FALLBACK_MODELS=gpt-5.5
 LLM_CONNECT_TIMEOUT_SECONDS=10
 LLM_REQUEST_TIMEOUT_SECONDS=45
-FRONTEND_URL=https://ragkno.example.com
-CORS_ORIGINS=https://ragkno.example.com
-GOOGLE_APP_REDIRECT_URI=https://ragkno.example.com/api/login/google/callback
-GOOGLE_REDIRECT_URI=https://ragkno.example.com/api/auth/callback
-RAGKNO_DATA_DIR=/data
+FRONTEND_URL=https://knova.example.com
+CORS_ORIGINS=https://knova.example.com
+GOOGLE_APP_REDIRECT_URI=https://knova.example.com/api/login/google/callback
+GOOGLE_REDIRECT_URI=https://knova.example.com/api/auth/callback
+KNOVA_DATA_DIR=/data
 RAG_EMBEDDING_DEVICE=cpu
 RAG_RERANKER_DEVICE=cpu
 RAG_RERANKER_BATCH_SIZE=8
@@ -139,15 +139,15 @@ In **Cloudflare Pages → Settings → Variables and Secrets**, add this runtime
 BACKEND_ORIGIN=https://<owner>-<space>.hf.space
 ```
 
-Do not add a trailing `/api`; RagKno's backend routes live at the root. Redeploy the Pages project after changing the binding. Cloudflare's [bindings documentation](https://developers.cloudflare.com/pages/functions/bindings/) covers runtime variables used by Pages Functions.
+Do not add a trailing `/api`; Knova's backend routes live at the root. Redeploy the Pages project after changing the binding. Cloudflare's [bindings documentation](https://developers.cloudflare.com/pages/functions/bindings/) covers runtime variables used by Pages Functions.
 
 ## 6. Validate the deployment
 
 Run these checks against the public frontend:
 
 ```bash
-curl -fsS https://ragkno.example.com/api/health/live
-curl -fsS https://ragkno.example.com/api/health/ready
+curl -fsS https://knova.example.com/api/health/live
+curl -fsS https://knova.example.com/api/health/ready
 ```
 
 Then test in a private browser window:

@@ -1,4 +1,4 @@
-name: ragkno
+name: knova
 
 services:
   backend:
@@ -8,7 +8,7 @@ services:
     env_file: .env
     environment:
       ENV: production
-      RAGKNO_DATA_DIR: /data
+      KNOVA_DATA_DIR: /data
       HF_HOME: /data/huggingface
       WEB_CONCURRENCY: "1"
     volumes:

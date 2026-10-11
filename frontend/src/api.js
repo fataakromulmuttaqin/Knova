@@ -13,7 +13,7 @@ async function parseError(response, fallback) {
   if (typeof detail === 'string') return detail
   if (detail && typeof detail === 'object') return detail.message || JSON.stringify(detail)
   if (response.status === 500) {
-    return 'RagKno server is unavailable. Start the backend and try again.'
+    return 'Knova server is unavailable. Start the backend and try again.'
   }
   return fallback
 }

@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { getCurrentUser, getGoogleLoginUrl, loginWithPassword, registerUser } from '../api.js'
 import brandLogoDark from '../assets/figma-logo-mark-dark.svg'
 import googleLogo from '../assets/google-logo-2025.webp'
-import heroImage from '../assets/ragkno-hero.webp'
+import heroImage from '../assets/knova-hero.webp'
 
 const initialForm = { name: '', email: '', password: '', termsAccepted: false }
 
@@ -80,7 +80,7 @@ export default function AuthPage({ onUserChange, onToast }) {
     <main className="account-page">
       <section className="account-form-panel" aria-labelledby="account-title">
         <header className="account-topbar">
-          <Link to="/" className="account-brand"><img src={brandLogoDark} alt="" /><span>RagKno</span></Link>
+          <Link to="/" className="account-brand"><img src={brandLogoDark} alt="" /><span>Knova</span></Link>
           <button className="account-top-action" type="button" onClick={() => switchMode(signingUp ? 'signin' : 'signup')}>{signingUp ? 'Sign in' : 'Sign up'}</button>
         </header>
         <div className="account-form-wrap">
@@ -108,13 +108,13 @@ export default function AuthPage({ onUserChange, onToast }) {
                 {error && <p className="account-error" role="alert">{error}</p>}
                 <button className="account-submit" type="submit" disabled={loading}>{loading ? <LoaderCircle className="spin" size={18} /> : <>{signingUp ? 'Create account' : 'Sign in'} <ArrowRight size={18} /></>}</button>
               </form>
-              <p className="account-toggle">{signingUp ? 'Already have an account?' : 'New to RagKno?'} <button type="button" onClick={() => switchMode(signingUp ? 'signin' : 'signup')}>{signingUp ? 'Sign in' : 'Create an account'}</button></p>
+              <p className="account-toggle">{signingUp ? 'Already have an account?' : 'New to Knova?'} <button type="button" onClick={() => switchMode(signingUp ? 'signin' : 'signup')}>{signingUp ? 'Sign in' : 'Create an account'}</button></p>
             </motion.div>
           </AnimatePresence>
         </div>
-        <footer className="account-footer"><span>© 2026 RagKno</span><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link><Link to="/cookies">Cookies</Link></footer>
+        <footer className="account-footer"><span>© 2026 Knova</span><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link><Link to="/cookies">Cookies</Link></footer>
       </section>
-      <aside className="account-visual" aria-label="RagKno knowledge workspace"><img src={heroImage} alt="" /></aside>
+      <aside className="account-visual" aria-label="Knova knowledge workspace"><img src={heroImage} alt="" /></aside>
     </main>
   )
 }

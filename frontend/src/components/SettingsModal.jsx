@@ -28,7 +28,7 @@ const NAV_TABS = [
   { id: 'ai', label: 'AI & RAG Engine', icon: Cpu },
   { id: 'data', label: 'Data Controls', icon: Database },
   { id: 'help', label: 'Help & FAQ', icon: CircleHelp },
-  { id: 'about', label: 'About RagKno', icon: Info },
+  { id: 'about', label: 'About Knova', icon: Info },
 ]
 
 
@@ -50,11 +50,11 @@ export default function SettingsModal({
   const [searchQuery, setSearchQuery] = useState('')
 
   // Settings State persisted in localStorage
-  const [streaming, setStreaming] = useState(() => localStorage.getItem('ragkno_streaming') !== 'false')
-  const [useReranker, setUseReranker] = useState(() => localStorage.getItem('ragkno_reranker') !== 'false')
-  const [topK, setTopK] = useState(() => Number(localStorage.getItem('ragkno_top_k') || 5))
-  const [model, setModel] = useState(() => localStorage.getItem('ragkno_model') || '')
-  const [language, setLanguage] = useState(() => currentLang || localStorage.getItem('ragkno_lang') || 'auto')
+  const [streaming, setStreaming] = useState(() => localStorage.getItem('knova_streaming') !== 'false')
+  const [useReranker, setUseReranker] = useState(() => localStorage.getItem('knova_reranker') !== 'false')
+  const [topK, setTopK] = useState(() => Number(localStorage.getItem('knova_top_k') || 5))
+  const [model, setModel] = useState(() => localStorage.getItem('knova_model') || '')
+  const [language, setLanguage] = useState(() => currentLang || localStorage.getItem('knova_lang') || 'auto')
 
   // Operational states
   const [isSyncingDrive, setIsSyncingDrive] = useState(false)
@@ -84,28 +84,28 @@ export default function SettingsModal({
   const handleToggleStreaming = () => {
     const nextVal = !streaming
     setStreaming(nextVal)
-    localStorage.setItem('ragkno_streaming', String(nextVal))
+    localStorage.setItem('knova_streaming', String(nextVal))
     onToast?.({ type: 'info', message: `Response streaming ${nextVal ? 'enabled' : 'disabled'}` })
   }
 
   const handleToggleReranker = () => {
     const nextVal = !useReranker
     setUseReranker(nextVal)
-    localStorage.setItem('ragkno_reranker', String(nextVal))
+    localStorage.setItem('knova_reranker', String(nextVal))
     onToast?.({ type: 'info', message: `Semantic CrossEncoder ${nextVal ? 'enabled' : 'disabled'}` })
   }
 
   const handleTopKChange = (e) => {
     const val = Number(e.target.value)
     setTopK(val)
-    localStorage.setItem('ragkno_top_k', String(val))
+    localStorage.setItem('knova_top_k', String(val))
     onToast?.({ type: 'info', message: `Retrieval context set to ${val} chunks` })
   }
 
   const handleModelChange = (e) => {
     const val = e.target.value
     setModel(val)
-    localStorage.setItem('ragkno_model', val)
+    localStorage.setItem('knova_model', val)
     onToast?.({ type: 'info', message: `AI reasoning model set to ${val}` })
   }
 
@@ -113,7 +113,7 @@ export default function SettingsModal({
     const val = e.target.value
     setLanguage(val)
     setI18nLanguage(val)
-    localStorage.setItem('ragkno_lang', val)
+    localStorage.setItem('knova_lang', val)
   }
 
   const handleExportConversations = async () => {
@@ -124,7 +124,7 @@ export default function SettingsModal({
         return { ...thread, messages: result.messages || [] }
       }))
       const exportPayload = {
-        app: 'RagKno',
+        app: 'Knova',
         version: '1.0.0',
         exportedAt: new Date().toISOString(),
         user: user?.email || 'anonymous',
@@ -134,7 +134,7 @@ export default function SettingsModal({
       const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exportPayload, null, 2))
       const downloadAnchor = document.createElement('a')
       downloadAnchor.setAttribute('href', dataStr)
-      downloadAnchor.setAttribute('download', `ragkno-conversations-${new Date().toISOString().slice(0, 10)}.json`)
+      downloadAnchor.setAttribute('download', `knova-conversations-${new Date().toISOString().slice(0, 10)}.json`)
       document.body.appendChild(downloadAnchor)
       downloadAnchor.click()
       downloadAnchor.remove()
@@ -244,7 +244,7 @@ export default function SettingsModal({
                 ai: t('tabAiRag') || 'AI & RAG Engine',
                 data: t('tabData') || 'Data Controls',
                 help: t('tabHelp') || 'Help & FAQ',
-                about: t('tabAbout') || 'About RagKno',
+                about: t('tabAbout') || 'About Knova',
               }
               return (
                 <button
@@ -260,8 +260,8 @@ export default function SettingsModal({
             })}
           </nav>
 
-          <div className="settings-product-version" aria-label="RagKno version 1.0">
-            <span>RagKno</span>
+          <div className="settings-product-version" aria-label="Knova version 1.0">
+            <span>Knova</span>
             <strong>v1.0</strong>
           </div>
         </aside>
@@ -353,7 +353,7 @@ export default function SettingsModal({
                     type="button"
                     className="settings-btn-danger"
                     onClick={() => {
-                      if (window.confirm('Are you sure you want to log out of RagKno?')) {
+                      if (window.confirm('Are you sure you want to log out of Knova?')) {
                         onLogout?.()
                       }
                     }}
@@ -460,10 +460,10 @@ export default function SettingsModal({
                       setTopK(5)
                       setUseReranker(true)
                       setStreaming(true)
-                      localStorage.removeItem('ragkno_model')
-                      localStorage.setItem('ragkno_top_k', '5')
-                      localStorage.setItem('ragkno_reranker', 'true')
-                      localStorage.setItem('ragkno_streaming', 'true')
+                      localStorage.removeItem('knova_model')
+                      localStorage.setItem('knova_top_k', '5')
+                      localStorage.setItem('knova_reranker', 'true')
+                      localStorage.setItem('knova_streaming', 'true')
                       onToast?.({ type: 'info', message: 'AI settings restored to recommended defaults' })
                     }}
                   >
@@ -594,7 +594,7 @@ export default function SettingsModal({
                     <Sparkles size={20} />
                   </div>
                   <div className="settings-banner-text">
-                    <h4>Getting Started with RagKno</h4>
+                    <h4>Getting Started with Knova</h4>
                     <p>
                       Ask questions over uploaded PDF, DOCX, and TXT files, supported Google Drive documents, and
                       website pages, then inspect the retrieved source excerpts.
@@ -625,7 +625,7 @@ export default function SettingsModal({
                   <div className="settings-row-info">
                     <span className="settings-row-title">2. Inquire Naturally</span>
                     <span className="settings-row-desc">
-                      Ask complex questions. RagKno conducts hybrid vector + BM25 keyword search, ranks candidate passages, and references exact passages.
+                      Ask complex questions. Knova conducts hybrid vector + BM25 keyword search, ranks candidate passages, and references exact passages.
                     </span>
                   </div>
                   <button
@@ -655,7 +655,7 @@ export default function SettingsModal({
                     <div className="settings-row-info">
                       <span className="settings-row-title">Share Feedback</span>
                       <span className="settings-row-desc">
-                        Help us improve RagKno with your feedback, suggestions, or bug reports.
+                        Help us improve Knova with your feedback, suggestions, or bug reports.
                       </span>
                     </div>
                     <button
@@ -691,11 +691,11 @@ export default function SettingsModal({
             </>
           )}
 
-          {/* ABOUT RAGKNO TAB */}
+          {/* ABOUT KNOVA TAB */}
           {activeTab === 'about' && (
             <>
               <header className="settings-content-header">
-                <h2>About RagKno</h2>
+                <h2>About Knova</h2>
               </header>
               <div className="settings-content-scroll">
                 <div className="settings-banner-card">
@@ -703,7 +703,7 @@ export default function SettingsModal({
                     <Layers size={20} />
                   </div>
                   <div className="settings-banner-text">
-                    <h4>RagKno v1.0</h4>
+                    <h4>Knova v1.0</h4>
                     <p>
                       Created by <strong>Priyanshu Urmaliya</strong>. Built for user-scoped document retrieval, hybrid search, and inspectable citations.
                     </p>

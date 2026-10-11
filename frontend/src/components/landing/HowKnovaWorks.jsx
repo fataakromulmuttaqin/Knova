@@ -74,7 +74,7 @@ function ProofScene({ on }) {
 
 const SCENES = [BringScene, FindScene, ProofScene]
 
-export default function HowRagknoWorks() {
+export default function HowKnovaWorks() {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
 
@@ -88,7 +88,7 @@ export default function HowRagknoWorks() {
   }, [paused])
 
   return (
-    <section id="how-it-works" className="how-it-works-section" data-nav-theme="light" aria-label="How RAGKNO Works">
+    <section id="how-it-works" className="how-it-works-section" data-nav-theme="light" aria-label="How KNOVA Works">
       <div className="how-it-works-inner">
         <header className="hw-head">
           <h2>How it works.</h2>

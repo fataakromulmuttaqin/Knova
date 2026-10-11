@@ -1,6 +1,6 @@
-# Contributing to RagKno
+# Contributing to Knova
 
-Thank you for improving RagKno. Contributions are welcome as focused issues, documentation fixes, bug fixes, tests, and product changes.
+Thank you for improving Knova. Contributions are welcome as focused issues, documentation fixes, bug fixes, tests, and product changes.
 
 ## Development setup
 

@@ -4,24 +4,24 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PORT=7860 \
     WEB_CONCURRENCY=1 \
-    RAGKNO_DATA_DIR=/data \
+    KNOVA_DATA_DIR=/data \
     HF_HOME=/data/huggingface
 
 RUN pip install --no-cache-dir uv==0.11.14 \
-    && useradd --create-home --uid 1000 ragkno \
+    && useradd --create-home --uid 1000 knova \
     && mkdir -p /app /data \
-    && chown -R ragkno:ragkno /app /data
+    && chown -R knova:knova /app /data
 
 WORKDIR /app
 
-COPY --chown=ragkno:ragkno pyproject.toml uv.lock README.md ./
+COPY --chown=knova:knova pyproject.toml uv.lock README.md ./
 RUN uv sync --frozen --no-dev --no-install-project --no-cache \
     && .venv/bin/python -c "import torch; assert torch.version.cuda is None, 'CPU-only PyTorch is required'"
 
-COPY --chown=ragkno:ragkno backend ./backend
-COPY --chown=ragkno:ragkno src ./src
+COPY --chown=knova:knova backend ./backend
+COPY --chown=knova:knova src ./src
 
-USER ragkno
+USER knova
 
 EXPOSE 7860
 

@@ -1,13 +1,13 @@
 <div align="center">
 
-# RagKno
+# Knova
 
 **Ask naturally. Verify every answer.**
 
 An open-source retrieval-augmented generation workspace for turning documents, websites, and Google Drive files into cited, streaming answers.
 
-[![RagKno v1.0](https://img.shields.io/badge/RagKno-v1.0-111111)](https://github.com/GitHpriyanshu23/Ragkno)
-[![CI](https://github.com/GitHpriyanshu23/Ragkno/actions/workflows/ci.yml/badge.svg)](https://github.com/GitHpriyanshu23/Ragkno/actions/workflows/ci.yml)
+[![Knova v1.0](https://img.shields.io/badge/Knova-v1.0-111111)](https://github.com/GitHpriyanshu23/Knova)
+[![CI](https://github.com/GitHpriyanshu23/Knova/actions/workflows/ci.yml/badge.svg)](https://github.com/GitHpriyanshu23/Knova/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.md)
 [![Python 3.13](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![React 18](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=111)](https://react.dev/)
@@ -16,11 +16,11 @@ An open-source retrieval-augmented generation workspace for turning documents, w
 
 </div>
 
-![RagKno landing page](docs/screenshots/landing-desktop.webp)
+![Knova landing page](docs/screenshots/landing-desktop.webp)
 
-## What RagKno does
+## What Knova does
 
-RagKno gives each user a private knowledge workspace. Add supported files, a public web page, or selected Google Drive documents; RagKno extracts and chunks the content, indexes it with user-scoped metadata, retrieves and reranks relevant evidence, and streams an answer with citations back to the conversation.
+Knova gives each user a private knowledge workspace. Add supported files, a public web page, or selected Google Drive documents; Knova extracts and chunks the content, indexes it with user-scoped metadata, retrieves and reranks relevant evidence, and streams an answer with citations back to the conversation.
 
 - **Multiple knowledge sources** — PDF, DOCX, TXT, public URLs, and Google Drive
 - **Grounded conversations** — dense and keyword retrieval, semantic reranking, parent-context expansion, and inline citations
@@ -32,7 +32,7 @@ RagKno gives each user a private knowledge workspace. Add supported files, a pub
 
 ## Product preview
 
-![RagKno documentation](docs/screenshots/docs.webp)
+![Knova documentation](docs/screenshots/docs.webp)
 
 ## How it works
 
@@ -72,8 +72,8 @@ The React client talks to FastAPI through `/api`. In production, a Cloudflare Pa
 ### 1. Clone and configure
 
 ```bash
-git clone https://github.com/GitHpriyanshu23/Ragkno.git
-cd Ragkno
+git clone https://github.com/GitHpriyanshu23/Knova.git
+cd Knova
 cp .env.example .env
 ```
 
@@ -88,7 +88,7 @@ ENV=development
 PORT=8000
 ```
 
-When `DATABASE_URL` is omitted locally, RagKno uses an ignored SQLite database. Google OAuth variables are only required for Google sign-in and Drive sync.
+When `DATABASE_URL` is omitted locally, Knova uses an ignored SQLite database. Google OAuth variables are only required for Google sign-in and Drive sync.
 
 ### 2. Install dependencies
 
@@ -122,12 +122,12 @@ Start from [`.env.example`](.env.example). The production-critical settings are:
 | `DATABASE_URL` | PostgreSQL connection used for users, sessions, chats, metadata, and OAuth tokens |
 | `AGENTROUTER_API_KEY` | Primary model-provider credential |
 | `LLM_PROVIDER` | `agentrouter` or `google` |
-| `RAGKNO_SESSION_SECRET` | Random secret of at least 32 characters |
+| `KNOVA_SESSION_SECRET` | Random secret of at least 32 characters |
 | `FRONTEND_URL` | Canonical HTTPS frontend origin |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google login and Drive OAuth credentials |
 | `GOOGLE_APP_REDIRECT_URI` | Google sign-in callback, normally `https://app.example.com/api/login/google/callback` |
 | `GOOGLE_REDIRECT_URI` | Drive callback, normally `https://app.example.com/api/auth/callback` |
-| `RAGKNO_DATA_DIR` | Durable runtime directory; `/data` in the Docker deployment |
+| `KNOVA_DATA_DIR` | Durable runtime directory; `/data` in the Docker deployment |
 | `CHROMA_PERSIST_DIR` | Optional explicit Chroma location |
 
 Never commit `.env`, provider keys, OAuth credentials, database files, uploaded documents, or vector-store data. The repository ignore rules cover these artifacts; run the readiness checks below before every public release.
@@ -206,4 +206,4 @@ Issues and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) fo
 
 ## License
 
-RagKno is available under the [Apache License 2.0](LICENSE.md).
+Knova is available under the [Apache License 2.0](LICENSE.md).

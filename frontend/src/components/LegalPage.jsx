@@ -6,7 +6,7 @@ const updated = 'September 29, 2026'
 const content = {
   privacy: {
     title: 'Privacy Policy',
-    intro: 'Your privacy matters to us. This policy explains what RagKno collects, how that information is used, and the choices available to you.',
+    intro: 'Your privacy matters to us. This policy explains what Knova collects, how that information is used, and the choices available to you.',
     sections: [
       {
         title: 'Information we collect',
@@ -15,7 +15,7 @@ const content = {
       },
       {
         title: 'How we use information',
-        body: ['We use this information to authenticate sessions, ingest sources, retrieve relevant passages, generate cited answers, restore conversation history, prevent abuse, and improve reliability. RagKno does not sell personal information.'],
+        body: ['We use this information to authenticate sessions, ingest sources, retrieve relevant passages, generate cited answers, restore conversation history, prevent abuse, and improve reliability. Knova does not sell personal information.'],
       },
       {
         title: 'Models and service providers',
@@ -23,7 +23,7 @@ const content = {
       },
       {
         title: 'Google Drive',
-        body: ['If you connect Google Drive, RagKno uses the permission you grant to list and ingest the documents you select. Drive credentials and file identifiers are kept for that connection and are not used to present unrelated workspace integrations. You can disconnect Drive from the product.'],
+        body: ['If you connect Google Drive, Knova uses the permission you grant to list and ingest the documents you select. Drive credentials and file identifiers are kept for that connection and are not used to present unrelated workspace integrations. You can disconnect Drive from the product.'],
       },
       {
         title: 'Retention, deletion, and security',
@@ -31,17 +31,17 @@ const content = {
       },
       {
         title: 'Your choices and contact',
-        body: ['You may request access, correction, export, or deletion of your account information where applicable. Until self-service account deletion is available, contact your RagKno administrator. A production contact address will be added before launch.'],
+        body: ['You may request access, correction, export, or deletion of your account information where applicable. Until self-service account deletion is available, contact your Knova administrator. A production contact address will be added before launch.'],
       },
     ],
   },
   terms: {
     title: 'Terms of Service',
-    intro: 'These terms describe the rules for using RagKno’s document-grounded answer workspace and the responsibilities that come with an account.',
+    intro: 'These terms describe the rules for using Knova’s document-grounded answer workspace and the responsibilities that come with an account.',
     sections: [
       {
-        title: 'Using RagKno',
-        body: ['You may use RagKno only in accordance with applicable law and these terms. You must be able to authorize every document, URL, or connected Drive file that you add to the service.'],
+        title: 'Using Knova',
+        body: ['You may use Knova only in accordance with applicable law and these terms. You must be able to authorize every document, URL, or connected Drive file that you add to the service.'],
       },
       {
         title: 'Accounts and access',
@@ -49,15 +49,15 @@ const content = {
       },
       {
         title: 'Your content',
-        body: ['You retain ownership of your source material and questions. You grant RagKno the limited permission needed to store, process, retrieve, and present that material back to you as part of the service.'],
+        body: ['You retain ownership of your source material and questions. You grant Knova the limited permission needed to store, process, retrieve, and present that material back to you as part of the service.'],
       },
       {
         title: 'Generated answers',
-        body: ['RagKno retrieves source passages and uses configured models to generate responses with citations. Answers may still be incomplete or incorrect. Review the cited source before relying on an answer, especially for legal, medical, financial, or other consequential decisions.'],
+        body: ['Knova retrieves source passages and uses configured models to generate responses with citations. Answers may still be incomplete or incorrect. Review the cited source before relying on an answer, especially for legal, medical, financial, or other consequential decisions.'],
       },
       {
         title: 'Acceptable use',
-        body: ['Do not probe other users’ data, bypass security controls, upload malicious content, disrupt the service, automate abusive traffic, or use RagKno to violate another person’s rights.'],
+        body: ['Do not probe other users’ data, bypass security controls, upload malicious content, disrupt the service, automate abusive traffic, or use Knova to violate another person’s rights.'],
       },
       {
         title: 'Availability, suspension, and changes',
@@ -67,11 +67,11 @@ const content = {
   },
   cookies: {
     title: 'Cookie Policy',
-    intro: 'This policy explains the limited browser storage RagKno uses to keep accounts secure and remember non-sensitive interface choices.',
+    intro: 'This policy explains the limited browser storage Knova uses to keep accounts secure and remember non-sensitive interface choices.',
     sections: [
       {
         title: 'Essential session cookies',
-        body: ['After authentication, RagKno sets a signed, HTTP-only session cookie. It keeps you signed in and allows protected workspace requests to be associated with the correct account.'],
+        body: ['After authentication, Knova sets a signed, HTTP-only session cookie. It keeps you signed in and allows protected workspace requests to be associated with the correct account.'],
       },
       {
         title: 'Security tokens',
@@ -83,15 +83,15 @@ const content = {
       },
       {
         title: 'Third-party authentication',
-        body: ['Choosing Google sign-in takes you to Google’s authentication service. Google may use its own cookies under its policies; RagKno does not control those cookies.'],
+        body: ['Choosing Google sign-in takes you to Google’s authentication service. Google may use its own cookies under its policies; Knova does not control those cookies.'],
       },
       {
         title: 'Your choices',
-        body: ['Signing out clears the active RagKno session. You can remove local preferences through your browser settings. Blocking essential cookies prevents authenticated workspace features from working.'],
+        body: ['Signing out clears the active Knova session. You can remove local preferences through your browser settings. Blocking essential cookies prevents authenticated workspace features from working.'],
       },
       {
         title: 'Updates and contact',
-        body: ['We will update this page if the browser storage used by RagKno materially changes. A production contact address will be added before launch.'],
+        body: ['We will update this page if the browser storage used by Knova materially changes. A production contact address will be added before launch.'],
       },
     ],
   },
@@ -104,7 +104,7 @@ export default function LegalPage({ kind }) {
     <div className="legal-page">
       <article className="legal-article">
         <header className="legal-hero">
-          <p className="legal-kicker">RagKno legal</p>
+          <p className="legal-kicker">Knova legal</p>
           <h1>{page.title}</h1>
           <p className="legal-meta">Last updated {updated} · Starter policy for legal review before production launch</p>
           <p className="legal-intro">{page.intro}</p>
@@ -123,7 +123,7 @@ export default function LegalPage({ kind }) {
         <aside className="legal-contact">
           <div>
             <p className="legal-contact-label">Questions about this page?</p>
-            <p>Contact your RagKno product administrator.</p>
+            <p>Contact your Knova product administrator.</p>
           </div>
           <nav aria-label="Legal policies">
             <Link to="/privacy">Privacy</Link>

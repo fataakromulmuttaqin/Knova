@@ -1,6 +1,6 @@
-# Launch RagKno on AWS EC2 with Cloudflare Pages
+# Launch Knova on AWS EC2 with Cloudflare Pages
 
-Keep the frontend at https://ragkno.pages.dev. Run the FastAPI backend on one EC2 instance, with Caddy providing HTTPS and a Docker volume preserving Chroma and model caches. PostgreSQL remains a separately configured managed database.
+Keep the frontend at https://knova.pages.dev. Run the FastAPI backend on one EC2 instance, with Caddy providing HTTPS and a Docker volume preserving Chroma and model caches. PostgreSQL remains a separately configured managed database.
 
 ## Account and cost boundary
 
@@ -14,11 +14,11 @@ Official references: [EC2 free-tier rules](https://docs.aws.amazon.com/AWSEC2/la
 
 In EC2 → Launch instance:
 
-- Name: `ragkno-backend`.
+- Name: `knova-backend`.
 - Region: Mumbai (`ap-south-1`) if the selected instance is available to your account there.
 - Image: Canonical Ubuntu Server 24.04 LTS, **64-bit x86**, without paid Marketplace software.
 - Instance: `m7i-flex.large` (2 vCPU, 8 GiB RAM). Confirm AWS marks it eligible for your new free plan before launch. Do not substitute a paid-only instance automatically.
-- Key pair: create `ragkno-aws`, download the `.pem` and keep it locally.
+- Key pair: create `knova-aws`, download the `.pem` and keep it locally.
 - Network: default VPC, public subnet, auto-assign public IPv4 enabled.
 - Security group: SSH TCP 22 from **My IP** only; HTTP TCP 80 and HTTPS TCP 443 from `0.0.0.0/0`. Keep backend port 7860 closed externally.
 - Disk: 40 GiB encrypted gp3, default performance, no additional volumes. Local image builds and model caches need disk space; monitor usage.
@@ -32,8 +32,8 @@ References: [launch settings](https://docs.aws.amazon.com/AWSEC2/latest/UserGuid
 Replace the path and IP:
 
 ```bash
-chmod 400 ~/Downloads/ragkno-aws.pem
-ssh -i ~/Downloads/ragkno-aws.pem ubuntu@YOUR_EC2_PUBLIC_IP
+chmod 400 ~/Downloads/knova-aws.pem
+ssh -i ~/Downloads/knova-aws.pem ubuntu@YOUR_EC2_PUBLIC_IP
 ```
 
 On the server:
@@ -42,15 +42,15 @@ On the server:
 sudo apt-get update
 sudo apt-get install -y docker.io docker-compose-v2 git
 sudo systemctl enable --now docker
-git clone https://github.com/GitHpriyanshu23/Ragkno.git
-cd Ragkno
+git clone https://github.com/GitHpriyanshu23/Knova.git
+cd Knova
 ```
 
 Confirm the deployed Git revision contains `deploy/aws/compose.yaml`. Push the prepared deployment files to GitHub before cloning, or copy those files to the server. Do not copy your personal development `.env` blindly.
 
 ## 3. Configure hostname and secrets
 
-Create an A record for a backend hostname you control, such as `api.ragkno.xyz`, pointing to the EC2 public IPv4. For initial certificate setup, use DNS-only mode if Cloudflare manages the DNS. This example does not imply the domain has been purchased.
+Create an A record for a backend hostname you control, such as `api.knova.xyz`, pointing to the EC2 public IPv4. For initial certificate setup, use DNS-only mode if Cloudflare manages the DNS. This example does not imply the domain has been purchased.
 
 An automatically assigned EC2 public IPv4 can change after a stop/start. Update DNS if it changes. The Docker data volume survives container recreation on this disk, but is not a backup and will not survive deletion of the underlying disk.
 
@@ -61,7 +61,7 @@ openssl rand -hex 32
 nano deploy/aws/.env
 ```
 
-Put the generated secret in `RAGKNO_SESSION_SECRET`, set `BACKEND_DOMAIN` to the real hostname, and fill the database/provider credentials. Preserve the Pages frontend URLs until you intentionally move the frontend to a custom domain. For Google OAuth, register both callback URLs in the example with your Google web client.
+Put the generated secret in `KNOVA_SESSION_SECRET`, set `BACKEND_DOMAIN` to the real hostname, and fill the database/provider credentials. Preserve the Pages frontend URLs until you intentionally move the frontend to a custom domain. For Google OAuth, register both callback URLs in the example with your Google web client.
 
 The `.env` is ignored by Git. Caddy requires the hostname to resolve to this server and ports 80/443 to be reachable to obtain and renew its TLS certificate.
 
@@ -89,7 +89,7 @@ These files have not yet been verified on a live EC2 instance. Check build logs 
 
 ## 5. Connect the deployed frontend
 
-In Cloudflare Pages → ragkno → Settings → Variables and Secrets, set the **Production runtime** binding:
+In Cloudflare Pages → knova → Settings → Variables and Secrets, set the **Production runtime** binding:
 
 ```env
 BACKEND_ORIGIN=https://YOUR_BACKEND_HOSTNAME
@@ -98,8 +98,8 @@ BACKEND_ORIGIN=https://YOUR_BACKEND_HOSTNAME
 No `/api` suffix. Keep the frontend build variable `VITE_API_URL=/api`. Redeploy Pages to apply the binding.
 
 ```bash
-curl -fsS https://ragkno.pages.dev/api/health/live
-curl -fsS https://ragkno.pages.dev/api/health/ready
+curl -fsS https://knova.pages.dev/api/health/live
+curl -fsS https://knova.pages.dev/api/health/ready
 ```
 
 Test registration/login, a small upload, streamed answers and citations. Restart the backend container and confirm the indexed source still answers questions. Test Google sign-in and Drive if enabled. Back up the database and backend data independently before launch.

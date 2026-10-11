@@ -74,13 +74,13 @@ import brandLogo from './assets/figma-logo-mark.svg'
 import { useI18n } from './lib/i18n.jsx'
 import { parseMarkdownTable } from './lib/markdownTable.js'
 import useHomepageReveal from './lib/useHomepageReveal.js'
-import heroImage from './assets/ragkno-hero.webp'
+import heroImage from './assets/knova-hero.webp'
 import serverRacksImage from './assets/server-racks.png'
 import serverCablesImage from './assets/server-cables.png'
 import ctaTexture from './assets/cta-texture.webp'
 import KnowledgeSourcesMarquee from './components/landing/KnowledgeSourcesMarquee.jsx'
 import BentoCapabilities from './components/landing/BentoCapabilities.jsx'
-import HowRagknoWorks from './components/landing/HowRagknoWorks.jsx'
+import HowKnovaWorks from './components/landing/HowKnovaWorks.jsx'
 import ProductChatDemo from './components/landing/ProductChatDemo.jsx'
 import UseCasesSection from './components/landing/UseCasesSection.jsx'
 import FrequentlyAskedQuestions from './components/landing/FrequentlyAskedQuestions.jsx'
@@ -162,8 +162,8 @@ function AppShell({ children, toasts, onDismissToast }) {
             <div className="top-nav-shell">
               <div className="top-nav-inner">
                 <Link to="/" className="brand">
-                  <img src={brandLogo} alt="RAGKNO logo" className="brand-logo" />
-                  <span>RAGKNO</span>
+                  <img src={brandLogo} alt="KNOVA logo" className="brand-logo" />
+                  <span>KNOVA</span>
                 </Link>
                 <nav className="top-links" aria-label="Primary navigation">
                   <Link to="/#capabilities" className="top-link">Features</Link>
@@ -173,7 +173,7 @@ function AppShell({ children, toasts, onDismissToast }) {
                 </nav>
                 <div className="top-actions">
                   <a
-                    href="https://github.com/GitHpriyanshu23/Ragkno.git"
+                    href="https://github.com/GitHpriyanshu23/Knova.git"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="navbar-github-link"
@@ -206,7 +206,7 @@ function AppShell({ children, toasts, onDismissToast }) {
                   </div>
                   <div className="mobile-menu-actions">
                     <a
-                      href="https://github.com/GitHpriyanshu23/Ragkno.git"
+                      href="https://github.com/GitHpriyanshu23/Knova.git"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="navbar-github-link"
@@ -334,8 +334,8 @@ function HomePage() {
       {/* 2. Bento Capabilities (Dark #090909) */}
       <BentoCapabilities />
 
-      {/* 4. How RAGKNO Works (Dark #090909) */}
-      <HowRagknoWorks />
+      {/* 4. How KNOVA Works (Dark #090909) */}
+      <HowKnovaWorks />
 
       {/* 5. Product / Chat Demo (Light #FAFAFA) */}
       <ProductChatDemo />
@@ -429,7 +429,7 @@ function DataPage({ onToast }) {
     } else if (params.get('error')) {
       const err = params.get('error')
       if (err === 'access_denied') {
-        showError('Google Drive access was denied (access_denied). In Google Cloud Console, ensure your email is added under "OAuth Consent Screen" > "Test Users", and click "Advanced" > "Go to RagKno (unsafe)" on Google\'s consent prompt.')
+        showError('Google Drive access was denied (access_denied). In Google Cloud Console, ensure your email is added under "OAuth Consent Screen" > "Test Users", and click "Advanced" > "Go to Knova (unsafe)" on Google\'s consent prompt.')
       } else {
         showError(`Google Drive connection failed: ${err}`)
       }
@@ -675,7 +675,7 @@ function DataPage({ onToast }) {
           <Upload size={40} />
           <h3>Upload PDFs</h3>
           <p>Drag and drop documents or click to browse.</p>
-          <small>Supported: PDF, DOCX, TXT (Max 50MB)</small>
+          <small>Supported: PDF, DOCX, TXT (Max 100MB)</small>
           <div className="upload-progress-container" onClick={(event) => event.stopPropagation()}>
             <UploadProgress upload={uploadProgress} onDismiss={() => setUploadProgress(null)} />
           </div>
@@ -1119,7 +1119,7 @@ export function ChatPage({ user, onUserChange, onToast }) {
     return output
   }
 
-  const chatCacheKey = `ragkno_chat_cache_v2:${user?.id || user?.email || 'user'}`
+  const chatCacheKey = `knova_chat_cache_v2:${user?.id || user?.email || 'user'}`
   const [threads, setThreads] = useState(() => {
     try {
       const cached = JSON.parse(localStorage.getItem(chatCacheKey) || '[]')
@@ -1242,7 +1242,7 @@ export function ChatPage({ user, onUserChange, onToast }) {
   const messages = activeThread?.messages || []
   const rawFirstName = user?.name?.split(' ')?.[0] || user?.email?.split('@')?.[0] || 'there'
   const firstName = rawFirstName ? `${rawFirstName.slice(0, 1).toUpperCase()}${rawFirstName.slice(1)}` : 'there'
-  const displayName = firstName === 'there' ? 'RagKno user' : firstName
+  const displayName = firstName === 'there' ? 'Knova user' : firstName
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -1273,8 +1273,8 @@ export function ChatPage({ user, onUserChange, onToast }) {
     async function bootstrapThreads() {
       setThreadStartup({ status: 'ready', error: '' })
       try {
-        localStorage.removeItem('ragkno_chat_threads_v1')
-        localStorage.removeItem('ragkno_active_thread_v1')
+        localStorage.removeItem('knova_chat_threads_v1')
+        localStorage.removeItem('knova_active_thread_v1')
         const [result, requestedMessages] = await Promise.all([
           getThreads(),
           requestedThreadId
@@ -1698,9 +1698,9 @@ export function ChatPage({ user, onUserChange, onToast }) {
     const requestOptions = {
       threadId: targetThreadId,
       requestId,
-      topK: Math.max(1, Math.min(20, Number(localStorage.getItem('ragkno_top_k') || 5))),
-      useReranker: localStorage.getItem('ragkno_reranker') !== 'false',
-      language: localStorage.getItem('ragkno_lang') || 'auto',
+      topK: Math.max(1, Math.min(20, Number(localStorage.getItem('knova_top_k') || 5))),
+      useReranker: localStorage.getItem('knova_reranker') !== 'false',
+      language: localStorage.getItem('knova_lang') || 'auto',
       sourceIds: [...selectedSourceKeys],
       signal: controller.signal,
     }
@@ -1752,7 +1752,7 @@ export function ChatPage({ user, onUserChange, onToast }) {
     }
 
     try {
-      const shouldStream = localStorage.getItem('ragkno_streaming') !== 'false'
+      const shouldStream = localStorage.getItem('knova_streaming') !== 'false'
       const streamDonePayload = shouldStream
         ? await queryRAGStream(text, requestOptions, {
           signal: controller.signal,
@@ -1971,7 +1971,7 @@ export function ChatPage({ user, onUserChange, onToast }) {
             aria-label="Open sidebar"
             title="Open sidebar"
           >
-            <img src={brandLogo} alt="RagKno logo" className="rail-logo-img" />
+            <img src={brandLogo} alt="Knova logo" className="rail-logo-img" />
             <HugeiconsIcon icon={LayoutAlignRightIcon} size={18} className="rail-open-icon" />
           </button>
 
@@ -2041,8 +2041,8 @@ export function ChatPage({ user, onUserChange, onToast }) {
                 <button type="button" onClick={() => { setProfileMenuOpen(false); setSettingsModalOpen(false); setFeedbackModalOpen(true); }}><MessageSquareHeart size={15} /> {t('giveFeedback')}</button>
                 <hr />
                 <button type="button" onClick={handleLogout}><LogOut size={15} /> {t('logOut')}</button>
-                <div className="profile-product-version" aria-label="RagKno version 1.0">
-                  <span>RagKno</span>
+                <div className="profile-product-version" aria-label="Knova version 1.0">
+                  <span>Knova</span>
                   <strong>v1.0</strong>
                 </div>
               </div>
@@ -2065,8 +2065,8 @@ export function ChatPage({ user, onUserChange, onToast }) {
         <aside id="chat-navigation-sidebar" className={`chat-sidebar ${compactSidebarOpen ? 'compact-open' : ''}`}>
           <div className="chat-sidebar-header">
             <Link to="/chat" className="chat-sidebar-brand" onClick={() => setCompactSidebarOpen(false)}>
-              <img src={brandLogo} alt="RAGKNO logo" />
-              <span>RagKno</span>
+              <img src={brandLogo} alt="KNOVA logo" />
+              <span>Knova</span>
             </Link>
             <div className="chat-sidebar-header-actions">
               <button
@@ -2144,8 +2144,8 @@ export function ChatPage({ user, onUserChange, onToast }) {
                 <button type="button" onClick={() => { setProfileMenuOpen(false); setSettingsModalOpen(false); setFeedbackModalOpen(true); }}><MessageSquareHeart size={15} /> {t('giveFeedback')}</button>
                 <hr />
                 <button type="button" onClick={handleLogout}><LogOut size={15} /> {t('logOut')}</button>
-                <div className="profile-product-version" aria-label="RagKno version 1.0">
-                  <span>RagKno</span>
+                <div className="profile-product-version" aria-label="Knova version 1.0">
+                  <span>Knova</span>
                   <strong>v1.0</strong>
                 </div>
               </div>
@@ -2241,7 +2241,7 @@ export function ChatPage({ user, onUserChange, onToast }) {
         {appView === 'apps' && (
           <div className="connect-apps-view">
             <span className="view-kicker">Connect Apps</span>
-            <h1>Bring more context into RagKno.</h1>
+            <h1>Bring more context into Knova.</h1>
             <p>Google Drive is available now. Slack, Notion, GitHub, and Gmail connectors can be added here as the product grows.</p>
             <button className="btn-primary-solid" type="button" onClick={() => navigate('/chat/data')}>
               Open Data Center
@@ -2363,7 +2363,7 @@ export function ChatPage({ user, onUserChange, onToast }) {
                       />
                     )}
 
-                    <span>{message.role === 'user' ? message.ts : `Ragkno • ${message.ts}`}</span>
+                    <span>{message.role === 'user' ? message.ts : `Knova • ${message.ts}`}</span>
                   </div>
                 ))}
 
@@ -2525,7 +2525,7 @@ export function ChatPage({ user, onUserChange, onToast }) {
                 </div>
               </form>
 
-              <p className="chat-disclaimer">{t('disclaimer') || 'Ragkno can make mistakes. verify important info.'}</p>
+              <p className="chat-disclaimer">{t('disclaimer') || 'Knova can make mistakes. verify important info.'}</p>
             </div>
           </>
         )}
@@ -2705,7 +2705,7 @@ function ProtectedRoute({ user, checkingAuth, children }) {
   if (checkingAuth) {
     return (
       <div className="auth-loading">
-        <span>Loading RagKno...</span>
+        <span>Loading Knova...</span>
       </div>
     )
   }

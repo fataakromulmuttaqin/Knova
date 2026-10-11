@@ -18,7 +18,7 @@ export default function AboutModal({ isOpen, onClose }) {
     <div className="app-modal-backdrop" role="presentation" onMouseDown={onClose}>
       <div className="app-modal-card" role="dialog" aria-modal="true" onMouseDown={(e) => e.stopPropagation()}>
         <header className="app-modal-header">
-          <h3><Info size={20} /> About RagKno</h3>
+          <h3><Info size={20} /> About Knova</h3>
           <button className="app-modal-close-btn" type="button" onClick={onClose} aria-label="Close about">
             <X size={18} />
           </button>
@@ -26,7 +26,7 @@ export default function AboutModal({ isOpen, onClose }) {
 
         <div className="app-modal-body">
           <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#a3a3a3', margin: 0 }}>
-            <strong>RagKno</strong> is a high-performance Retrieval-Augmented Generation (RAG) platform designed to search, synthesize, and answer questions across your Google Drive and documents with strict user privacy.
+            <strong>Knova</strong> is a high-performance Retrieval-Augmented Generation (RAG) platform designed to search, synthesize, and answer questions across your Google Drive and documents with strict user privacy.
           </p>
 
           <section className="settings-section">
@@ -61,7 +61,7 @@ export default function AboutModal({ isOpen, onClose }) {
           </section>
 
           <div style={{ padding: '0.75rem 1rem', background: '#212121', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '12px', fontSize: '0.82rem', color: '#a3a3a3', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>RagKno v1.0</span>
+            <span>Knova v1.0</span>
             <span style={{ fontWeight: 600, color: '#ececec' }}>Created by Priyanshu Urmaliya</span>
           </div>
         </div>

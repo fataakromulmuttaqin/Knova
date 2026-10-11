@@ -16,7 +16,7 @@ persistent volume when recreating containers. Data Center reconnects to active
 jobs when reopened; closing the browser does not cancel server processing.
 
 There is one active job per user and a maximum of ten pending jobs, with uploads
-limited to 50MB per file and 100MB per batch. Status percentages measure processing
+limited to 100MB per file and 200MB per batch. Status percentages measure processing
 stages/batches, not time remaining. Failed processing logs include the job ID.
 Check backend logs for the underlying exception if a job fails.
 

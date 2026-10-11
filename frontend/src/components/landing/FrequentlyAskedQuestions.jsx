@@ -8,19 +8,19 @@ import {
 
 export const defaultFAQs = [
   {
-    question: "What data sources can I connect to RAGKNO?",
+    question: "What data sources can I connect to KNOVA?",
     answer:
       "You can upload PDF, DOCX, and TXT files, add an HTTP or HTTPS page, and import supported PDF, TXT, and Google Docs content from Google Drive. The extracted text is chunked and stored in the application's Chroma collection for retrieval.",
   },
   {
-    question: "How does RAGKNO cite sources and reduce unsupported answers?",
+    question: "How does KNOVA cite sources and reduce unsupported answers?",
     answer:
-      "RAGKNO asks the model to answer from top-ranked document passages and returns the retrieved source excerpts with the response. Citation buttons let you inspect that evidence, but you should still verify important claims against the original document.",
+      "KNOVA asks the model to answer from top-ranked document passages and returns the retrieved source excerpts with the response. Citation buttons let you inspect that evidence, but you should still verify important claims against the original document.",
   },
   {
     question: "What is hybrid search and why does it outperform pure vector search?",
     answer:
-      "Dense vector embeddings excel at broad conceptual semantics but often miss exact technical terms, product IDs, or financial figures. RAGKNO pairs dense vector retrieval with BM25 sparse lexical search and fuses them using Reciprocal Rank Fusion (RRF) and cross-encoder reranking for maximum precision.",
+      "Dense vector embeddings excel at broad conceptual semantics but often miss exact technical terms, product IDs, or financial figures. KNOVA pairs dense vector retrieval with BM25 sparse lexical search and fuses them using Reciprocal Rank Fusion (RRF) and cross-encoder reranking for maximum precision.",
   },
   {
     question: "Is chat memory and document data isolated per session?",
@@ -33,14 +33,14 @@ export const defaultFAQs = [
       "Document vectors and application metadata are stored by the configured Chroma and SQL backends. Answer generation uses the configured model provider, so retrieved context may be sent to that provider; the current application is not an air-gapped deployment by default.",
   },
   {
-    question: "How does RAGKNO handle document structure?",
+    question: "How does KNOVA handle document structure?",
     answer:
-      "RAGKNO extracts text from PDF, DOCX, and TXT documents and preserves page metadata where the parser provides it. Scanned PDFs need OCR before upload, and spreadsheet ingestion is not currently supported.",
+      "KNOVA extracts text from PDF, DOCX, and TXT documents and preserves page metadata where the parser provides it. Scanned PDFs need OCR before upload, and spreadsheet ingestion is not currently supported.",
   },
   {
     question: "How do you benchmark and evaluate retrieval quality?",
     answer:
-      "RAGKNO includes a RAGAS evaluation command for Faithfulness, Answer Relevancy, and Context Precision. It can enforce minimum thresholds against a versioned domain test dataset before a release.",
+      "KNOVA includes a RAGAS evaluation command for Faithfulness, Answer Relevancy, and Context Precision. It can enforce minimum thresholds against a versioned domain test dataset before a release.",
   },
 ];
 

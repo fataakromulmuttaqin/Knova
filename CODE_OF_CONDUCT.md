@@ -1,6 +1,6 @@
 # Code of Conduct
 
-RagKno is committed to a welcoming, respectful, and useful open-source community.
+Knova is committed to a welcoming, respectful, and useful open-source community.
 
 ## Expected behavior
 
@@ -18,4 +18,4 @@ Harassment, discrimination, threats, personal attacks, sexualized content, delib
 
 Report conduct concerns privately to the repository maintainers. Maintainers may edit or remove content, close discussions, reject contributions, or temporarily or permanently restrict participation when needed. Reports will be reviewed as privately and fairly as possible.
 
-This policy applies to repository issues, pull requests, discussions, and other spaces where someone represents the RagKno project.
+This policy applies to repository issues, pull requests, discussions, and other spaces where someone represents the Knova project.

@@ -4,4 +4,4 @@ Disallow: /api/
 
 # Login and workspace pages use X-Robots-Tag: noindex in _headers.
 # Allow crawling those pages so search engines can read the noindex header.
-Sitemap: https://ragkno.com/sitemap.xml
+Sitemap: https://knova.com/sitemap.xml

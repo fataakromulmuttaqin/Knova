@@ -15,7 +15,7 @@ export const TRANSLATIONS = {
 
     // Chat
     askAnything: 'Ask anything',
-    disclaimer: 'RagKno synthesizes knowledge from your connected documents. Verify important info.',
+    disclaimer: 'Knova synthesizes knowledge from your connected documents. Verify important info.',
     sources: 'Sources',
     allSources: 'All indexed sources',
     searchSources: 'Search indexed sources...',
@@ -37,7 +37,7 @@ export const TRANSLATIONS = {
     tabAiRag: 'AI & RAG Engine',
     tabData: 'Data Controls',
     tabHelp: 'Help & FAQ',
-    tabAbout: 'About RagKno',
+    tabAbout: 'About Knova',
 
     // Settings Modal Rows
     searchSettings: 'search settings',
@@ -111,7 +111,7 @@ export const TRANSLATIONS = {
 
     // Chat
     askAnything: 'Pregunta cualquier cosa',
-    disclaimer: 'RagKno sintetiza conocimiento de tu Google Drive y documentos conectados. Verifica datos importantes.',
+    disclaimer: 'Knova sintetiza conocimiento de tu Google Drive y documentos conectados. Verifica datos importantes.',
     sources: 'Fuentes',
     allSources: 'Todas las fuentes indexadas',
     searchSources: 'Buscar fuentes indexadas...',
@@ -133,7 +133,7 @@ export const TRANSLATIONS = {
     tabAiRag: 'Motor de IA y RAG',
     tabData: 'Control de datos',
     tabHelp: 'Ayuda y FAQ',
-    tabAbout: 'Acerca de RagKno',
+    tabAbout: 'Acerca de Knova',
 
     // Settings Modal Rows
     searchSettings: 'Buscar en configuración',
@@ -207,7 +207,7 @@ export const TRANSLATIONS = {
 
     // Chat
     askAnything: 'Posez n’importe quelle question',
-    disclaimer: 'RagKno synthétise les connaissances de votre Google Drive et documents connectés. Vérifiez les informations importantes.',
+    disclaimer: 'Knova synthétise les connaissances de votre Google Drive et documents connectés. Vérifiez les informations importantes.',
     sources: 'Sources',
     allSources: 'Toutes les sources indexées',
     searchSources: 'Rechercher des sources indexées...',
@@ -229,7 +229,7 @@ export const TRANSLATIONS = {
     tabAiRag: 'Moteur IA et RAG',
     tabData: 'Gestion des données',
     tabHelp: 'Aide et FAQ',
-    tabAbout: 'À propos de RagKno',
+    tabAbout: 'À propos de Knova',
 
     // Settings Modal Rows
     searchSettings: 'Rechercher dans les paramètres',
@@ -303,7 +303,7 @@ export const TRANSLATIONS = {
 
     // Chat
     askAnything: 'Fragen Sie alles',
-    disclaimer: 'RagKno fasst Wissen aus Google Drive und Dokumenten zusammen. Überprüfen Sie wichtige Infos.',
+    disclaimer: 'Knova fasst Wissen aus Google Drive und Dokumenten zusammen. Überprüfen Sie wichtige Infos.',
     sources: 'Quellen',
     allSources: 'Alle indexierten Quellen',
     searchSources: 'Indexierte Quellen durchsuchen...',
@@ -325,7 +325,7 @@ export const TRANSLATIONS = {
     tabAiRag: 'KI- & RAG-Engine',
     tabData: 'Datenkontrollen',
     tabHelp: 'Hilfe & FAQ',
-    tabAbout: 'Über RagKno',
+    tabAbout: 'Über Knova',
 
     // Settings Modal Rows
     searchSettings: 'Einstellungen durchsuchen',
@@ -399,7 +399,7 @@ export const TRANSLATIONS = {
 
     // Chat
     askAnything: 'कुछ भी पूछें',
-    disclaimer: 'RagKno आपके कनेक्टेड गूगल ड्राइव और दस्तावेज़ों से जानकारी संश्लेषित करता है। महत्वपूर्ण जानकारी सत्यापित करें।',
+    disclaimer: 'Knova आपके कनेक्टेड गूगल ड्राइव और दस्तावेज़ों से जानकारी संश्लेषित करता है। महत्वपूर्ण जानकारी सत्यापित करें।',
     sources: 'स्रोत',
     allSources: 'सभी इंडेक्स किए गए स्रोत',
     searchSources: 'इंडेक्स किए गए स्रोत खोजें...',
@@ -421,7 +421,7 @@ export const TRANSLATIONS = {
     tabAiRag: 'एआई और आरएजी इंजन',
     tabData: 'डेटा नियंत्रण',
     tabHelp: 'सहायता और अक्सर पूछे जाने वाले प्रश्न',
-    tabAbout: 'RagKno के बारे में',
+    tabAbout: 'Knova के बारे में',
 
     // Settings Modal Rows
     searchSettings: 'सेटिंग्स खोजें',
@@ -507,7 +507,7 @@ const I18nContext = createContext({
 export function I18nProvider({ children }) {
   const [language, setLanguageState] = useState(() => {
     try {
-      return localStorage.getItem('ragkno_lang') || 'auto'
+      return localStorage.getItem('knova_lang') || 'auto'
     } catch {
       return 'auto'
     }
@@ -518,14 +518,14 @@ export function I18nProvider({ children }) {
   const setLanguage = (newLang) => {
     setLanguageState(newLang)
     try {
-      localStorage.setItem('ragkno_lang', newLang)
+      localStorage.setItem('knova_lang', newLang)
     } catch {}
-    window.dispatchEvent(new CustomEvent('ragkno-lang-change', { detail: newLang }))
+    window.dispatchEvent(new CustomEvent('knova-lang-change', { detail: newLang }))
   }
 
   useEffect(() => {
     const handleStorage = (e) => {
-      if (e.key === 'ragkno_lang' && e.newValue) {
+      if (e.key === 'knova_lang' && e.newValue) {
         setLanguageState(e.newValue)
       }
     }
@@ -535,10 +535,10 @@ export function I18nProvider({ children }) {
       }
     }
     window.addEventListener('storage', handleStorage)
-    window.addEventListener('ragkno-lang-change', handleCustom)
+    window.addEventListener('knova-lang-change', handleCustom)
     return () => {
       window.removeEventListener('storage', handleStorage)
-      window.removeEventListener('ragkno-lang-change', handleCustom)
+      window.removeEventListener('knova-lang-change', handleCustom)
     }
   }, [])
 

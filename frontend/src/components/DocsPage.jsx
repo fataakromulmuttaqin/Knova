@@ -26,7 +26,7 @@ const DOC_GROUPS = [
     label: 'Overview',
     items: [
       ['introduction', 'Introduction'],
-      ['how-ragkno-works', 'How RagKno works'],
+      ['how-knova-works', 'How Knova works'],
       ['quickstart', 'Quickstart'],
     ],
   },
@@ -39,7 +39,7 @@ const DOC_GROUPS = [
     ],
   },
   {
-    label: 'Using RagKno',
+    label: 'Using Knova',
     items: [
       ['ask-questions', 'Ask questions'],
       ['sources-and-citations', 'Sources and citations'],
@@ -71,7 +71,7 @@ const DOC_GROUPS = [
 ]
 
 const ON_THIS_PAGE = [
-  ['how-ragkno-works', 'How RagKno works'],
+  ['how-knova-works', 'How Knova works'],
   ['quickstart', 'Get started'],
   ['supported-content', 'Supported content'],
   ['sources-and-citations', 'Grounded answers'],
@@ -126,8 +126,8 @@ function DocsSidebar({ query, onQueryChange, mobileOpen, onClose, searchRef }) {
         ))}
         {filteredGroups.length === 0 && <p className="docs-search-empty">No matching section.</p>}
       </nav>
-      <div className="docs-product-version" aria-label="RagKno version 1.0">
-        <span>RagKno</span>
+      <div className="docs-product-version" aria-label="Knova version 1.0">
+        <span>Knova</span>
         <strong>v1.0</strong>
       </div>
     </aside>
@@ -211,7 +211,7 @@ export default function DocsPage() {
         <button type="button" onClick={() => setMobileOpen(true)} aria-label="Open documentation menu">
           <Menu size={18} /> Menu
         </button>
-        <span>RagKno documentation</span>
+        <span>Knova documentation</span>
       </div>
 
       {mobileOpen && <button className="docs-sidebar-scrim" type="button" onClick={() => setMobileOpen(false)} aria-label="Close documentation menu" />}
@@ -226,20 +226,20 @@ export default function DocsPage() {
 
         <article className="docs-content">
           <header id="introduction" className="docs-intro">
-            <div className="docs-eyebrow"><BookOpen size={15} /> RagKno documentation</div>
+            <div className="docs-eyebrow"><BookOpen size={15} /> Knova documentation</div>
             <h1>Introduction</h1>
             <p className="docs-lead">
-              RagKno turns your documents, web pages, and connected Drive files into a searchable knowledge workspace. Ask a question in natural language and receive a streamed answer grounded in the sources you selected.
+              Knova turns your documents, web pages, and connected Drive files into a searchable knowledge workspace. Ask a question in natural language and receive a streamed answer grounded in the sources you selected.
             </p>
             <div className="docs-intro-actions">
               <Link to="/login?mode=signup" className="docs-primary-action">Create an account <ArrowRight size={15} /></Link>
-              <a href="https://github.com/GitHpriyanshu23/Ragkno" target="_blank" rel="noopener noreferrer" className="docs-secondary-action">View on GitHub <ExternalLink size={14} /></a>
+              <a href="https://github.com/GitHpriyanshu23/Knova" target="_blank" rel="noopener noreferrer" className="docs-secondary-action">View on GitHub <ExternalLink size={14} /></a>
             </div>
           </header>
 
-          <section id="how-ragkno-works" className="docs-section">
+          <section id="how-knova-works" className="docs-section">
             <h2>Turn scattered knowledge into grounded answers</h2>
-            <p>RagKno keeps the retrieval process visible so you can understand how an answer was produced.</p>
+            <p>Knova keeps the retrieval process visible so you can understand how an answer was produced.</p>
             <ul className="docs-feature-list">
               <li><Upload size={18} /><span><strong>Bring your sources</strong> — Upload PDF, DOCX, or TXT documents, add a public web page, or connect supported Google Drive files.</span></li>
               <li><Database size={18} /><span><strong>Build a private index</strong> — Content is extracted, divided into meaningful chunks, embedded, and stored with user-scoped metadata.</span></li>
@@ -255,7 +255,7 @@ export default function DocsPage() {
               <Step number="1" title="Create your account">Sign up with email and password, or continue with Google.</Step>
               <Step number="2" title="Add knowledge">Open Data Center and upload a document, add a website URL, or connect Google Drive.</Step>
               <Step number="3" title="Choose your sources">Keep the sources you want available for the current question selected in the composer.</Step>
-              <Step number="4" title="Ask a focused question">RagKno retrieves relevant passages, reranks the evidence, and streams a source-grounded response.</Step>
+              <Step number="4" title="Ask a focused question">Knova retrieves relevant passages, reranks the evidence, and streams a source-grounded response.</Step>
             </ol>
             <div className="docs-callout">
               <strong>Tip</strong>
@@ -267,7 +267,7 @@ export default function DocsPage() {
             <h2>Supported content</h2>
             <p>Each source is indexed separately and remains scoped to the account that added it.</p>
             <div className="docs-source-grid">
-              <div id="upload-documents" className="docs-source-card"><FileText size={20} /><strong>Document uploads</strong><p>PDF, DOCX, and UTF-8 TXT files. Upload up to 20 files per request, with a 50 MB limit per file.</p></div>
+              <div id="upload-documents" className="docs-source-card"><FileText size={20} /><strong>Document uploads</strong><p>PDF, DOCX, and UTF-8 TXT files. Upload up to 20 files per request, with a 100 MB limit per file.</p></div>
               <div id="add-a-website" className="docs-source-card"><Code2 size={20} /><strong>Web pages</strong><p>Public HTTP or HTTPS pages containing HTML or plain text. Private network addresses and credential-bearing URLs are rejected.</p></div>
               <div id="google-drive" className="docs-source-card"><Cloud size={20} /><strong>Google Drive</strong><p>Import selected PDF, TXT, and Google Docs content through read-only Google Drive access.</p></div>
             </div>
@@ -281,7 +281,7 @@ export default function DocsPage() {
 
           <section id="sources-and-citations" className="docs-section">
             <h2>Understand sources and citations</h2>
-            <p>The <strong>Used sources</strong> control appears above a grounded response. Open it to inspect the evidence RagKno retrieved for that answer.</p>
+            <p>The <strong>Used sources</strong> control appears above a grounded response. Open it to inspect the evidence Knova retrieved for that answer.</p>
             <ul className="docs-bullets">
               <li>Inline markers such as <strong>[1]</strong> refer to the corresponding retrieved source.</li>
               <li>The source panel shows document names and the relevant extracted passage.</li>
@@ -299,15 +299,15 @@ export default function DocsPage() {
           </section>
 
           <section id="self-hosting" className="docs-section">
-            <h2>Self-host RagKno</h2>
-            <p>RagKno includes a React and Vite frontend, a FastAPI backend, PostgreSQL-compatible metadata storage, and a persistent Chroma vector index.</p>
+            <h2>Self-host Knova</h2>
+            <p>Knova includes a React and Vite frontend, a FastAPI backend, PostgreSQL-compatible metadata storage, and a persistent Chroma vector index.</p>
 
             <h3 id="local-setup">Local setup</h3>
             <CodeBlock>{`# Backend\nuv sync --dev\nuv run python backend/main.py\n\n# Frontend\ncd frontend\nnpm install\nnpm run dev`}</CodeBlock>
 
             <h3 id="environment">Environment variables</h3>
             <p>Copy <code>.env.example</code> to <code>.env</code> for local development. Never commit the resulting file.</p>
-            <CodeBlock>{`DATABASE_URL=postgresql://...\nLLM_PROVIDER=agentrouter\nAGENTROUTER_API_KEY=...\nAGENTROUTER_MODEL=deepseek-v4-flash\nGOOGLE_CLIENT_ID=...\nGOOGLE_CLIENT_SECRET=...\nRAGKNO_SESSION_SECRET=...\nFRONTEND_URL=http://localhost:5173`}</CodeBlock>
+            <CodeBlock>{`DATABASE_URL=postgresql://...\nLLM_PROVIDER=agentrouter\nAGENTROUTER_API_KEY=...\nAGENTROUTER_MODEL=deepseek-v4-flash\nGOOGLE_CLIENT_ID=...\nGOOGLE_CLIENT_SECRET=...\nKNOVA_SESSION_SECRET=...\nFRONTEND_URL=http://localhost:5173`}</CodeBlock>
           </section>
 
           <section id="api-reference" className="docs-section">
@@ -340,7 +340,7 @@ export default function DocsPage() {
 
           <section id="contributing" className="docs-section">
             <h2>Contributing</h2>
-            <p>Thanks for helping improve RagKno. Contributions to the interface, retrieval pipeline, documentation, tests, accessibility, and deployment tooling are welcome.</p>
+            <p>Thanks for helping improve Knova. Contributions to the interface, retrieval pipeline, documentation, tests, accessibility, and deployment tooling are welcome.</p>
 
             <h3>Choose an issue</h3>
             <ul className="docs-bullets">
@@ -353,7 +353,7 @@ export default function DocsPage() {
             <p>Fork the repository, update your local <code>main</code> branch, and create a short branch name that describes one focused change.</p>
             <CodeBlock>{`git checkout main\ngit pull origin main\ngit checkout -b feat/short-description`}</CodeBlock>
 
-            <h3>Run RagKno locally</h3>
+            <h3>Run Knova locally</h3>
             <p>Install both workspaces and copy <code>.env.example</code> to an ignored local <code>.env</code>. Use placeholder or personal development credentials and never add secrets to a commit.</p>
             <CodeBlock>{`# Backend\nuv sync --dev\nuv run python backend/main.py\n\n# Frontend (in another terminal)\ncd frontend\nnpm install\nnpm run dev`}</CodeBlock>
 
@@ -371,12 +371,12 @@ export default function DocsPage() {
             </ol>
 
             <h3>License</h3>
-            <p>By contributing, you agree that your contribution may be distributed under RagKno’s Apache License 2.0.</p>
+            <p>By contributing, you agree that your contribution may be distributed under Knova’s Apache License 2.0.</p>
           </section>
 
           <section id="code-of-conduct" className="docs-section">
             <h2>Code of Conduct</h2>
-            <p>RagKno should be a respectful place to learn, build, review code, and exchange ideas. Everyone participating in the project is expected to follow these standards.</p>
+            <p>Knova should be a respectful place to learn, build, review code, and exchange ideas. Everyone participating in the project is expected to follow these standards.</p>
 
             <h3>Expected behavior</h3>
             <ul className="docs-bullets">
@@ -408,12 +408,12 @@ export default function DocsPage() {
             <div className="docs-resource-grid">
               <ResourceCard icon={Settings} title="Open your workspace" to="/chat">Start a conversation and manage sources.</ResourceCard>
               <ResourceCard icon={ShieldCheck} title="Privacy policy" to="/privacy">See how account and document data is handled.</ResourceCard>
-              <ResourceCard icon={Code2} title="GitHub repository" to="https://github.com/GitHpriyanshu23/Ragkno" external>Inspect the source, report an issue, or contribute.</ResourceCard>
+              <ResourceCard icon={Code2} title="GitHub repository" to="https://github.com/GitHpriyanshu23/Knova" external>Inspect the source, report an issue, or contribute.</ResourceCard>
             </div>
           </section>
 
           <Link className="docs-next-link" to="/login?mode=signup">
-            <span><small>Next</small><strong>Create your RagKno workspace</strong></span>
+            <span><small>Next</small><strong>Create your Knova workspace</strong></span>
             <ArrowRight size={18} />
           </Link>
         </article>

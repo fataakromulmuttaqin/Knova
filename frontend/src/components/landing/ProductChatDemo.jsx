@@ -97,11 +97,11 @@ export default function ProductChatDemo() {
         <div className="section-head-light">
           <span className="section-badge-light"><Sparkles size={12} /> DOCUMENT Q&amp;A</span>
           <h2 id="chat-demo-title">Ask naturally.<br />Verify every answer.</h2>
-          <p>RagKno retrieves relevant passages from your indexed documents and keeps the supporting text one click away.</p>
+          <p>Knova retrieves relevant passages from your indexed documents and keeps the supporting text one click away.</p>
         </div>
 
         <motion.div className="premium-chat-demo" initial={reduceMotion ? false : { opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .25 }} transition={{ duration: .5 }}>
-          <div className="premium-chat-status"><span><i /> RagKno workspace</span><span>Hybrid retrieval · citations</span></div>
+          <div className="premium-chat-status"><span><i /> Knova workspace</span><span>Hybrid retrieval · citations</span></div>
 
           <div className="premium-chat-body">
             <AnimatePresence mode="wait">
