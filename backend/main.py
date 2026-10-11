@@ -19,7 +19,7 @@ import re
 from collections import defaultdict, deque
 from typing import Literal
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 
 from dotenv import load_dotenv
 from fastapi import BackgroundTasks, FastAPI, File, HTTPException, Request, Response, UploadFile
@@ -112,7 +112,22 @@ STORE_DIR = str(
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
 SESSION_COOKIE_NAME = "knova_session"
 SESSION_TTL_SECONDS = 60 * 60 * 24 * 7
-APP_LOGIN_REDIRECT_URI = os.getenv("GOOGLE_APP_REDIRECT_URI", "http://localhost:8000/login/google/callback")
+APP_LOGIN_REDIRECT_URI = (
+    os.getenv("GOOGLE_APP_REDIRECT_URI", "http://localhost:8000/login/google/callback").strip()
+    or "http://localhost:8000/login/google/callback"
+)
+# Extra registered callbacks, comma separated. One backend can serve several
+# frontend domains (for example two *.vercel.app production domains).
+LOGIN_REDIRECT_URI_ALIASES = list(
+    dict.fromkeys(
+        [APP_LOGIN_REDIRECT_URI]
+        + [
+            uri.strip()
+            for uri in (os.getenv("GOOGLE_APP_REDIRECT_URIS") or "").split(",")
+            if uri.strip()
+        ]
+    )
+)
 SESSION_SECRET = os.getenv("KNOVA_SESSION_SECRET") or os.getenv("GOOGLE_CLIENT_SECRET") or "knova-dev-session-secret"
 
 if os.getenv("ENV", "").lower() in {"production", "prod"}:
@@ -192,7 +207,63 @@ def _invalidate_retrieval_cache() -> None:
 
 
 
-def _build_login_flow() -> Flow:
+def _origin_of(url: str) -> str:
+    parts = urlsplit(url or "")
+    if not parts.scheme or not parts.netloc:
+        return ""
+    return f"{parts.scheme}://{parts.netloc}"
+
+
+def _request_origin(request: Request | None) -> str:
+    """Origin the browser used, as forwarded by the Vercel rewrite proxy."""
+    if request is None:
+        return ""
+    for header in ("origin", "referer"):
+        origin = _origin_of(request.headers.get(header) or "")
+        if origin:
+            return origin
+    forwarded_host = (request.headers.get("x-forwarded-host") or "").split(",")[0].strip()
+    if forwarded_host:
+        return f"https://{forwarded_host}"
+    return ""
+
+
+def _login_redirect_uri(request: Request | None = None) -> str:
+    """Return the registered callback that matches the origin the browser used."""
+    origin = _request_origin(request)
+    if origin:
+        for uri in LOGIN_REDIRECT_URI_ALIASES:
+            if _origin_of(uri) == origin:
+                return uri
+    return APP_LOGIN_REDIRECT_URI
+
+
+_LOGIN_REDIRECT_TTL_SECONDS = 15 * 60
+_login_redirect_uris: dict[str, tuple[str, float]] = {}
+_login_redirect_lock = threading.Lock()
+
+
+def _remember_login_redirect(state: str, redirect_uri: str) -> None:
+    now = time.time()
+    with _login_redirect_lock:
+        for key, (_, created) in list(_login_redirect_uris.items()):
+            if now - created > _LOGIN_REDIRECT_TTL_SECONDS:
+                _login_redirect_uris.pop(key, None)
+        _login_redirect_uris[state] = (redirect_uri, now)
+
+
+def _pop_login_redirect(state: str) -> str:
+    with _login_redirect_lock:
+        entry = _login_redirect_uris.pop(state, None)
+    if not entry:
+        return ""
+    redirect_uri, created = entry
+    if time.time() - created > _LOGIN_REDIRECT_TTL_SECONDS:
+        return ""
+    return redirect_uri
+
+
+def _build_login_flow(redirect_uri: str = APP_LOGIN_REDIRECT_URI) -> Flow:
     client_id = os.getenv("GOOGLE_CLIENT_ID")
     client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
     if not client_id or not client_secret:
@@ -202,7 +273,7 @@ def _build_login_flow() -> Flow:
         "web": {
             "client_id": client_id,
             "client_secret": client_secret,
-            "redirect_uris": [APP_LOGIN_REDIRECT_URI],
+            "redirect_uris": [redirect_uri],
             "auth_uri": "https://accounts.google.com/o/oauth2/auth",
             "token_uri": "https://oauth2.googleapis.com/token",
         }
@@ -214,7 +285,7 @@ def _build_login_flow() -> Flow:
             "https://www.googleapis.com/auth/userinfo.email",
             "https://www.googleapis.com/auth/userinfo.profile",
         ],
-        redirect_uri=APP_LOGIN_REDIRECT_URI,
+        redirect_uri=redirect_uri,
     )
 
 
@@ -351,8 +422,9 @@ def _clear_login_attempts(key: str) -> None:
 
 @app.get("/app-auth/google/url", summary="Get Google app-login consent URL")
 @app.get("/login/google/url", summary="Get Google app-login consent URL")
-def login_google_url():
-    flow = _build_login_flow()
+def login_google_url(request: Request):
+    redirect_uri = _login_redirect_uri(request)
+    flow = _build_login_flow(redirect_uri)
     auth_url, state = flow.authorization_url(
         access_type="online",
         include_granted_scopes="true",
@@ -361,11 +433,13 @@ def login_google_url():
     if not flow.code_verifier:
         raise HTTPException(status_code=500, detail="Failed to initialize login verifier.")
     save_oauth_verifier(state, flow.code_verifier)
+    _remember_login_redirect(state, redirect_uri)
     return {"url": auth_url}
 
 
 @app.get("/login/google/callback", summary="Google app-login callback")
 def login_google_callback(
+    request: Request,
     code: str | None = None,
     state: str | None = None,
     error: str | None = None,
@@ -379,7 +453,8 @@ def login_google_callback(
     if not code or not state:
         raise HTTPException(status_code=400, detail="Missing authorization code in login callback.")
 
-    flow = _build_login_flow()
+    redirect_uri = _pop_login_redirect(state) or _login_redirect_uri(request)
+    flow = _build_login_flow(redirect_uri)
     code_verifier = pop_oauth_verifier(state)
     if not code_verifier:
         raise HTTPException(status_code=400, detail="OAuth state is invalid or expired.")
@@ -401,7 +476,12 @@ def login_google_callback(
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Google login failed: {e}") from e
 
-    response = RedirectResponse(url=f"{FRONTEND_URL}/chat")
+    redirect_origin = _origin_of(redirect_uri)
+    if redirect_uri == APP_LOGIN_REDIRECT_URI or not redirect_origin.startswith("https://"):
+        # Local development sets the cookie on the backend origin, so the app
+        # itself still lives on FRONTEND_URL.
+        redirect_origin = FRONTEND_URL
+    response = RedirectResponse(url=f"{redirect_origin}/chat")
     _set_session_cookie(response, stored_user)
     return response
 

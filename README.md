@@ -126,6 +126,7 @@ Start from [`.env.example`](.env.example). The production-critical settings are:
 | `FRONTEND_URL` | Canonical HTTPS frontend origin |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google login and Drive OAuth credentials |
 | `GOOGLE_APP_REDIRECT_URI` | Google sign-in callback, normally `https://app.example.com/api/login/google/callback` |
+| `GOOGLE_APP_REDIRECT_URIS` | Optional comma-separated extra sign-in callbacks, one per frontend domain; the backend picks the one matching the browser origin |
 | `GOOGLE_REDIRECT_URI` | Drive callback, normally `https://app.example.com/api/auth/callback` |
 | `KNOVA_DATA_DIR` | Durable runtime directory; `/data` in the Docker deployment |
 | `CHROMA_PERSIST_DIR` | Optional explicit Chroma location |

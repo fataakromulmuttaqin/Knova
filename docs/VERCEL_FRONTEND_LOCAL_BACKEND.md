@@ -107,6 +107,19 @@ GOOGLE_APP_REDIRECT_URI=https://your-project.vercel.app/api/login/google/callbac
 GOOGLE_REDIRECT_URI=https://your-project.vercel.app/api/auth/callback
 ```
 
+Add `GOOGLE_APP_REDIRECT_URIS` when the project answers on more than one
+domain, for example a second `*.vercel.app` production domain:
+
+```
+GOOGLE_APP_REDIRECT_URIS=https://your-project.vercel.app/api/login/google/callback,https://your-project-2.vercel.app/api/login/google/callback
+```
+
+The backend then returns the callback whose origin matches the browser
+(`Referer`, `Origin`, or `X-Forwarded-Host`, checked against the list) and sends
+the browser back to that same origin after login. An origin outside the list
+falls back to `GOOGLE_APP_REDIRECT_URI`, so this is not an open redirect.
+Register every URI in the list in the Google Cloud console.
+
 `FRONTEND_URL` is added to the allowed origins automatically
 (`backend/main.py:142`). Mutating requests are rejected with
 `403 Origin is not allowed.` when the browser origin is absent from that list
@@ -171,8 +184,8 @@ Live on 2026-10-11:
 
 | Check | Result |
 | --- | --- |
-| `https://knova-lac.vercel.app` | 200, landing page renders |
-| `https://knova-lac.vercel.app/api/health/ready` | 200 `{"status":"ready",...}` via the rewrite, the Funnel, and the local backend |
+| `https://knova-rag.vercel.app` and `https://knova-lac.vercel.app` | 200, landing page renders |
+| Both domains `/api/health/ready` | 200 `{"status":"ready",...}` via the rewrite, the Funnel, and the local backend |
 | `POST /api/auth/login` through the Vercel domain | 200 plus `Set-Cookie: knova_session` |
 | `GET /api/auth/me` with that cookie | `{"authenticated":true,...}` |
 | `POST /api/query` through the Vercel domain | 200, one source, Indonesian answer, so multilingual retrieval runs end to end |
@@ -182,12 +195,31 @@ Live on 2026-10-11:
 Backend environment used for this deployment:
 
 ```
-FRONTEND_URL=https://knova-lac.vercel.app
-CORS_ORIGINS=https://knova-lac.vercel.app,https://knova-fataakromulmuttaqins-projects.vercel.app
-GOOGLE_APP_REDIRECT_URI=https://knova-lac.vercel.app/api/login/google/callback
-GOOGLE_REDIRECT_URI=https://knova-lac.vercel.app/api/auth/callback
+FRONTEND_URL=https://knova-rag.vercel.app
+CORS_ORIGINS=https://knova-rag.vercel.app,https://knova-lac.vercel.app,https://knova-fataakromulmuttaqins-projects.vercel.app
+GOOGLE_APP_REDIRECT_URI=https://knova-rag.vercel.app/api/login/google/callback
+GOOGLE_APP_REDIRECT_URIS=https://knova-rag.vercel.app/api/login/google/callback,https://knova-lac.vercel.app/api/login/google/callback
+GOOGLE_REDIRECT_URI=https://knova-rag.vercel.app/api/auth/callback
 ```
 
-Both Google redirect URIs still have to be registered in the Google Cloud
-console. Until then, password login works through Vercel and Google login
+Both Google sign-in redirect URIs still have to be registered in the Google
+Cloud console. Until then, password login works through Vercel and Google login
 returns `redirect_uri_mismatch`.
+
+### Domain move on 2026-10-11
+
+The project's production domain was renamed from `knova-lac.vercel.app` to
+`knova-rag.vercel.app` at 13:42 local time. An already-open tab on the old domain
+kept working until the next navigation, then every URL on it answered:
+
+```
+404 Not Found
+X-Vercel-Error: DEPLOYMENT_NOT_FOUND
+The deployment could not be found on Vercel.
+```
+
+Google sign-in hit this because the backend pinned the consent URL's
+`redirect_uri` to the removed domain. Both domains are now registered on the
+project, and the backend derives `redirect_uri` from the browser origin, so
+either domain can start a login. Keep both names in `CORS_ORIGINS` and
+`GOOGLE_APP_REDIRECT_URIS`.
