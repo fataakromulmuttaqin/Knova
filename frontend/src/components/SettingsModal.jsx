@@ -12,7 +12,6 @@ import {
   Trash2,
   Layers,
   Sparkles,
-  ExternalLink,
   Download,
   LogOut,
   RefreshCw,
@@ -760,21 +759,6 @@ export default function SettingsModal({
                   <span className="settings-badge">Postgres + Chroma</span>
                 </div>
 
-                <div className="settings-row-item">
-                  <div className="settings-row-info">
-                    <span className="settings-row-title">Creator & Portfolio</span>
-                    <span className="settings-row-desc">
-                      Priyanshu Urmaliya's developer profile and open-source work
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    className="settings-btn-secondary"
-                    onClick={() => window.open('https://github.com/priyanshuurmaliya', '_blank', 'noopener,noreferrer')}
-                  >
-                    GitHub Profile <ExternalLink size={14} />
-                  </button>
-                </div>
               </div>
             </>
           )}

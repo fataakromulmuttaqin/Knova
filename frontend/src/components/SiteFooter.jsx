@@ -27,7 +27,6 @@ export default function SiteFooter() {
             <Link to="/docs">Documentation</Link>
             <Link to="/#how-it-works">How it works</Link>
             <Link to="/#faq">FAQ</Link>
-            <a href="https://github.com/GitHpriyanshu23/Knova" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
           <div className="footer-col">
             <h4>Legal</h4>

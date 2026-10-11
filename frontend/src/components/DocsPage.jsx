@@ -233,7 +233,6 @@ export default function DocsPage() {
             </p>
             <div className="docs-intro-actions">
               <Link to="/login?mode=signup" className="docs-primary-action">Create an account <ArrowRight size={15} /></Link>
-              <a href="https://github.com/GitHpriyanshu23/Knova" target="_blank" rel="noopener noreferrer" className="docs-secondary-action">View on GitHub <ExternalLink size={14} /></a>
             </div>
           </header>
 
@@ -408,7 +407,6 @@ export default function DocsPage() {
             <div className="docs-resource-grid">
               <ResourceCard icon={Settings} title="Open your workspace" to="/chat">Start a conversation and manage sources.</ResourceCard>
               <ResourceCard icon={ShieldCheck} title="Privacy policy" to="/privacy">See how account and document data is handled.</ResourceCard>
-              <ResourceCard icon={Code2} title="GitHub repository" to="https://github.com/GitHpriyanshu23/Knova" external>Inspect the source, report an issue, or contribute.</ResourceCard>
             </div>
           </section>
 

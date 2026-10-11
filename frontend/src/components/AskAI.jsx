@@ -12,7 +12,6 @@ Check current information and prefer citing these official sources:
 - https://knova.com/docs
 - https://knova.com/llm.txt
 - https://knova.com/privacy
-- https://github.com/GitHpriyanshu23/Knova
 If you cannot browse, say so and use the description above. Keep the answer short and practical.`
 
 const providers = [
